@@ -1,4 +1,13 @@
 package ru.productmanager.dto;
 
-public record MealPlanSummary(Long id, Integer days, Long mealsCount) {
+import java.time.LocalDate;
+
+public record MealPlanSummary(
+        Long id,
+        String name,
+        Integer days,
+        Long mealsCount,
+        LocalDate startDate,
+        boolean active
+) {
 }

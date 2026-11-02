@@ -3,253 +3,737 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Админка: блюда</title>
+<title>Админка — Рацион</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#1d2145;--page:#edf1f7;--card:#fff;--line:#d8e0ec;--muted:#566083;--lime:#d4f04f;--radish:#cf2e66;
+:root{--ink:#1d2145;--page:#edf1f7;--card:#fff;--line:#d8e0ec;--muted:#566083;--lime:#d4f04f;--radish:#cf2e66;--soft:#eef1f8;
 --display:"Unbounded","Montserrat",system-ui,sans-serif;--body:"Onest",system-ui,"Segoe UI",sans-serif}
 *{box-sizing:border-box}[hidden]{display:none!important}
-body{margin:0;background:var(--page);color:var(--ink);font:400 1rem/1.55 var(--body)}
+body{margin:0;min-height:100vh;background:
+  radial-gradient(ellipse 80% 50% at 10% -10%,#dfe8ff 0%,transparent 55%),
+  radial-gradient(ellipse 60% 40% at 100% 0%,#eef6c9 0%,transparent 45%),
+  var(--page);color:var(--ink);font:400 1rem/1.55 var(--body)}
 h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:0}
-h2{font-size:1.25rem}.muted{color:var(--muted)}.small{font-size:.875rem}p{margin:0}
-:focus-visible{outline:3px solid var(--ink);outline-offset:2px}button{font:inherit;cursor:pointer}
-.top{display:flex;justify-content:space-between;align-items:center;padding:1rem clamp(1rem,3vw,2.5rem);background:var(--card);border-bottom:1px solid var(--line)}
+h1{font-size:1.55rem}h2{font-size:1.2rem}h3{font-size:1rem}
+p{margin:0}.muted{color:var(--muted)}.small{font-size:.875rem}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+button,a.btn{font:inherit;cursor:pointer}
 .logo{display:flex;align-items:center;gap:.6rem;font:600 .95rem var(--display);letter-spacing:-.02em}
-.logo svg{width:30px;height:30px}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 20rem;gap:1.5rem;padding:1.5rem clamp(1rem,3vw,2.5rem);max-width:74rem;margin:0 auto;align-items:start}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.4rem}
-.narrow{max-width:26rem;margin:4rem auto}
-.stack{display:grid;gap:1.1rem}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.logo svg{width:30px;height:30px;flex:none}
+
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  padding:.75rem clamp(1rem,3vw,2.5rem);background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line)}
+.top .spacer{flex:1}
+.nav{display:inline-flex;background:#dfe6f1;border-radius:12px;padding:4px;gap:2px}
+.nav button{border:0;background:none;padding:.5rem 1.1rem;border-radius:9px;color:var(--muted);font-weight:500}
+.nav button[aria-selected=true]{background:var(--lime);color:var(--ink)}
+
+.wrap{max-width:78rem;margin:0 auto;padding:1.25rem clamp(1rem,3vw,2.5rem) 2.5rem}
+.gate{max-width:24rem;margin:4rem auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:1.6rem;display:grid;gap:1rem;
+  box-shadow:0 10px 28px -14px rgba(29,33,69,.18);animation:rise .45s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.layout{display:grid;grid-template-columns:minmax(17rem,22rem) minmax(0,1fr);gap:1.25rem;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.2rem 1.3rem;
+  box-shadow:0 1px 2px rgba(29,33,69,.04),0 10px 28px -16px rgba(29,33,69,.16)}
+.stack{display:grid;gap:1rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem}
 label.f,fieldset{display:grid;gap:.35rem;font-weight:500;font-size:.9rem;border:0;padding:0;margin:0;min-width:0}
 legend{padding:0;margin-bottom:.35rem;font-weight:500;font-size:.9rem}
-input[type=text],input[type=number],input[type=password],textarea{width:100%;font:inherit;color:inherit;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:.65rem .8rem}
-textarea{resize:vertical;min-height:4.5rem}
-input:focus,textarea:focus{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px #d4f04f99}
-.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+input,select,textarea{width:100%;font:inherit;color:inherit;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:.65rem .8rem}
+textarea{resize:vertical;min-height:4rem}
+input:focus,select:focus,textarea:focus{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px #d4f04f99}
+
+.btn{border:0;background:var(--ink);color:#fff;font-weight:600;padding:.75rem 1.25rem;border-radius:999px;
+  display:inline-flex;gap:.5rem;align-items:center;justify-content:center;text-decoration:none}
+.btn:hover{background:#2c3270}.btn[disabled]{opacity:.65;cursor:wait}
+.btn.ghost{background:none;color:var(--ink);border:1.5px solid var(--line);padding:.45rem 1rem;font-weight:500}
+.btn.ghost:hover{border-color:var(--ink)}
+.btn.danger{background:none;color:var(--radish);border:1.5px solid #f0c3d1;padding:.4rem .85rem;font-weight:500}
+.btn.danger:hover{background:#fde5ec;border-color:var(--radish)}
+.btn.sm{padding:.4rem .9rem;font-size:.9rem}
+.err{color:var(--radish);font-weight:500;font-size:.9rem;min-height:1.2em}
+.ok{color:#2f6b2f;font-weight:500;font-size:.9rem}
+
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
 .chip{position:relative}.chip input{position:absolute;opacity:0;inset:0}
-.chip span{display:block;padding:.45rem .95rem;border:1.5px solid var(--line);border-radius:999px;font-weight:500;color:var(--muted);cursor:pointer}
+.chip span{display:block;padding:.4rem .85rem;border:1.5px solid var(--line);border-radius:999px;font-weight:500;font-size:.88rem;color:var(--muted);cursor:pointer}
 .chip input:checked+span{background:var(--lime);border-color:var(--lime);color:var(--ink)}
 .chip input:focus-visible+span{outline:3px solid var(--ink);outline-offset:2px}
-.ing{display:grid;grid-template-columns:minmax(0,1fr) 6.5rem 2.4rem;gap:.5rem;align-items:start}
-.ing small{display:block;margin-top:.2rem;min-height:1.1rem}
-.x{height:2.75rem;border:1.5px solid var(--line);background:var(--card);border-radius:10px;color:var(--muted);font-size:1.2rem}
+.tag{display:inline-flex;padding:.15rem .55rem;border-radius:999px;background:var(--soft);color:var(--muted);font-size:.75rem;font-weight:500}
+.tag[data-t=BREAKFAST]{background:#f3fad0;color:#4d5a10}
+.tag[data-t=LUNCH]{background:#dfe9fb;color:#243a73}
+.tag[data-t=DINNER]{background:#e7e2f7;color:#3b2f78}
+.tag[data-t=SNACK],.tag[data-t=SECOND_SNACK]{background:#fde5ec;color:#8a2147}
+
+.search{position:relative}
+.search input{padding-left:2.3rem}
+.search svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);width:1.05rem;height:1.05rem;stroke:var(--muted);fill:none;stroke-width:1.8;pointer-events:none}
+
+.list{list-style:none;margin:0;padding:0;display:grid;gap:.35rem;max-height:min(68vh,40rem);overflow:auto}
+.list li{border:1.5px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+.list .row{display:grid;grid-template-columns:1fr auto;gap:.5rem;align-items:start;width:100%;border:0;background:none;text-align:left;padding:.75rem .85rem;color:inherit;cursor:pointer}
+.list .row:hover{background:var(--soft)}
+.list li.on{border-color:var(--ink);box-shadow:0 0 0 2px #d4f04f66}
+.list .row strong{display:block;font-weight:600}
+.list .meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;margin-top:.35rem}
+.list .actions{display:flex;gap:.35rem;padding:0 .65rem .65rem;justify-content:flex-end}
+.empty{padding:1.5rem .75rem;text-align:center;color:var(--muted)}
+
+.picker{position:relative}
+.suggest{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:4;background:#fff;border:1.5px solid var(--line);
+  border-radius:12px;max-height:14rem;overflow:auto;box-shadow:0 12px 28px -12px rgba(29,33,69,.35)}
+.suggest button{display:grid;grid-template-columns:1fr auto;gap:.5rem;width:100%;border:0;border-bottom:1px solid var(--line);
+  background:none;text-align:left;padding:.65rem .8rem;color:inherit;cursor:pointer}
+.suggest button:last-child{border-bottom:0}
+.suggest button:hover,.suggest button[aria-selected=true]{background:var(--soft)}
+
+.ings{display:grid;gap:.5rem}
+.ing{display:grid;grid-template-columns:minmax(0,1fr) 5.5rem 2.4rem;gap:.45rem;align-items:center;
+  padding:.55rem .65rem;border:1.5px solid var(--line);border-radius:12px;background:#fbfcfe}
+.ing .nm{font-weight:500;overflow-wrap:anywhere}
+.ing .kcal{display:block;color:var(--muted);font-size:.8rem;font-weight:400}
+.ing input{padding:.45rem .55rem}
+.x{height:2.4rem;border:1.5px solid var(--line);background:#fff;border-radius:10px;color:var(--muted);font-size:1.15rem}
 .x:hover{border-color:var(--radish);color:var(--radish)}
-.btn{border:0;background:var(--ink);color:#fff;font-weight:600;padding:.85rem 1.4rem;border-radius:999px;display:inline-flex;gap:.6rem;align-items:center;justify-content:center;text-decoration:none}
-.btn:hover{background:#2c3270}.btn[disabled]{opacity:.7;cursor:wait}
-.btn.ghost{background:none;color:var(--ink);border:1.5px solid var(--line);padding:.45rem 1rem;font-weight:500}
-.err{color:var(--radish);font-weight:500;font-size:.9rem}
-.sum{position:sticky;top:1rem;display:grid;gap:.6rem}
-.sum .big{font:600 2rem var(--display);letter-spacing:-.03em}
-.sum dl{display:grid;grid-template-columns:1fr auto;gap:.3rem 1rem;margin:0}.sum dd{margin:0;font-weight:500;text-align:right}
-.added{list-style:none;margin:0;padding:0;display:grid;gap:.3rem;font-size:.9rem}
-.added li{display:flex;justify-content:space-between;gap:1rem;border-top:1px solid var(--line);padding-top:.3rem}
-#toast{position:fixed;left:50%;bottom:1.5rem;transform:translate(-50%,2rem);background:var(--ink);color:#fff;padding:.8rem 1.2rem;border-radius:12px;max-width:min(90vw,32rem);opacity:0;pointer-events:none;transition:.25s;z-index:9}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.55rem}
+.tile{background:var(--soft);border-radius:12px;padding:.7rem .8rem;display:grid;gap:.1rem}
+.tile span{color:var(--muted);font-size:.78rem}.tile strong{font:600 1rem var(--display);letter-spacing:-.02em}
+.tile.accent{background:var(--ink);color:#fff}.tile.accent span{color:#c9cfee}.tile.accent strong{color:var(--lime)}
+
+.head{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:.85rem}
+.panel-title{display:grid;gap:.25rem}
+.detail{display:grid;gap:1rem}
+.detail .ing-list{list-style:none;margin:0;padding:0;display:grid;gap:.25rem}
+.detail .ing-list li{display:flex;justify-content:space-between;gap:1rem;padding:.4rem 0;border-top:1px solid var(--line);font-size:.95rem}
+.form-actions{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+
+#toast{position:fixed;left:50%;bottom:1.5rem;transform:translate(-50%,2rem);background:var(--ink);color:#fff;
+  padding:.8rem 1.2rem;border-radius:12px;max-width:min(90vw,32rem);opacity:0;pointer-events:none;transition:.25s;z-index:9}
 #toast.on{opacity:1;transform:translate(-50%,0)}
-@media (max-width:860px){.layout{grid-template-columns:1fr}.sum{position:static}.two{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@media (max-width:960px){
+  .layout{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .three{grid-template-columns:1fr 1fr}
+  .list{max-height:18rem}
+}
+@media (max-width:560px){.two,.three{grid-template-columns:1fr}.top .nav{order:3;width:100%;justify-content:stretch}.top .nav button{flex:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+
 <header class="top">
-  <div class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#d4f04f"/><path d="M9 22c0-8 4-13 14-13 0 9-5 13-14 13zM9 22l8-8" fill="none" stroke="#1d2145" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Админка: блюда</div>
-  <a class="btn ghost" href="/">К сайту</a>
+  <div class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#d4f04f"/><path d="M9 22c0-8 4-13 14-13 0 9-5 13-14 13zM9 22l8-8" fill="none" stroke="#1d2145" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Админка</div>
+  <nav class="nav" id="tabs" hidden>
+    <button type="button" data-tab="dishes" aria-selected="true">Блюда</button>
+    <button type="button" data-tab="products" aria-selected="false">Продукты</button>
+  </nav>
+  <div class="spacer"></div>
+  <a class="btn ghost sm" href="/">К сайту</a>
+  <button class="btn ghost sm" type="button" id="logout" hidden>Выйти</button>
 </header>
 
-<main>
-  <section id="gate" class="card narrow stack" hidden>
-    <h2>Вход в админку</h2>
+<main class="wrap">
+  <section id="gate" class="gate" hidden>
+    <h1>Вход в админку</h1>
+    <p class="muted small">Только аккаунт с ролью администратора. По умолчанию: <code>admin@local</code> / <code>admin123</code>.</p>
     <form id="gateForm" class="stack" novalidate>
-      <label class="f">Ключ администратора<input type="password" id="key" autocomplete="current-password" required></label>
+      <label class="f">Email<input type="email" id="email" autocomplete="username" required></label>
+      <label class="f">Пароль<input type="password" id="password" autocomplete="current-password" minlength="6" required></label>
       <p class="err" id="gateErr" role="alert"></p>
       <button class="btn" type="submit">Войти</button>
     </form>
   </section>
 
-  <div id="panel" class="layout" hidden>
-    <form id="dish" class="card stack" novalidate>
-      <h2>Новое блюдо</h2>
-      <label class="f">Название<input type="text" id="name" maxlength="255" required></label>
-      <label class="f">Описание<textarea id="desc" maxlength="1000"></textarea></label>
-      <label class="f">Время приготовления, мин<input type="number" id="time" min="1" step="1" inputmode="numeric"></label>
-      <fieldset>
-        <legend>Подходит для приёмов пищи</legend>
-        <div class="chips" id="types"></div>
-        <p class="muted small">Отметьте несколько смежных приёмов (например, обед и ужин), если блюдо можно приготовить один раз на оба.</p>
-      </fieldset>
-      <fieldset>
-        <legend>Состав на одну порцию</legend>
-        <div class="stack" id="ings"></div>
-        <button type="button" class="btn ghost" id="addIng" style="justify-self:start">Добавить ингредиент</button>
-      </fieldset>
-      <p class="err" id="err" role="alert"></p>
-      <button class="btn" type="submit" id="save">Добавить блюдо</button>
-    </form>
+  <div id="app" hidden>
+    <!-- БЛЮДА -->
+    <section id="tab-dishes" class="layout">
+      <aside class="card stack">
+        <div class="panel-title">
+          <h2>Каталог блюд</h2>
+          <p class="muted small">Поиск, просмотр и удаление</p>
+        </div>
+        <div class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input type="search" id="dishQ" placeholder="Найти блюдо…" autocomplete="off" aria-label="Поиск блюд">
+        </div>
+        <ul class="list" id="dishList"></ul>
+        <button type="button" class="btn ghost" id="newDish">+ Новое блюдо</button>
+      </aside>
 
-    <aside class="card sum" aria-live="polite">
-      <h3>Итого на порцию</h3>
-      <p class="big" id="kcal">0 ккал</p>
-      <dl><dt>Белки</dt><dd id="p">0 г</dd><dt>Жиры</dt><dd id="f">0 г</dd><dt>Углеводы</dt><dd id="c">0 г</dd><dt>Масса</dt><dd id="w">0 г</dd></dl>
-      <p class="muted small">Планировщик меняет порцию в 0,5–2 раза, поэтому удобнее всего блюда в диапазоне 150–900 ккал.</p>
-      <h3 style="margin-top:.8rem" id="addedTitle" hidden>Добавлено</h3>
-      <ul class="added" id="added"></ul>
-    </aside>
+      <div class="stack">
+        <section class="card" id="dishView" hidden></section>
+
+        <form id="dishForm" class="card stack" novalidate>
+          <div class="head">
+            <div class="panel-title">
+              <h2>Новое блюдо</h2>
+              <p class="muted small">Состав на одну порцию. Планировщик масштабирует порцию в 0,5–2 раза.</p>
+            </div>
+          </div>
+
+          <label class="f">Название<input type="text" id="dName" maxlength="255" required placeholder="Например, Курица с рисом"></label>
+          <label class="f">Описание<textarea id="dDesc" maxlength="1000" placeholder="Необязательно"></textarea></label>
+          <label class="f">Время, мин<input type="number" id="dTime" min="1" step="1" inputmode="numeric" placeholder="30"></label>
+
+          <fieldset>
+            <legend>Приёмы пищи</legend>
+            <div class="chips" id="dTypes"></div>
+            <p class="muted small">Несколько соседних приёмов — если блюдо готовится один раз на оба.</p>
+          </fieldset>
+
+          <fieldset>
+            <legend>Состав</legend>
+            <div class="picker">
+              <label class="f">Добавить продукт
+                <input type="search" id="ingSearch" placeholder="Начните вводить название…" autocomplete="off" aria-autocomplete="list" aria-controls="ingSuggest">
+              </label>
+              <div class="suggest" id="ingSuggest" hidden role="listbox"></div>
+            </div>
+            <div class="ings" id="ings" style="margin-top:.7rem"></div>
+            <p class="muted small" id="ingsEmpty">Пока пусто — выберите продукт из подсказки.</p>
+          </fieldset>
+
+          <div class="stats" aria-live="polite">
+            <div class="tile accent"><span>Калории</span><strong id="sKcal">0</strong></div>
+            <div class="tile"><span>Белки</span><strong id="sP">0 г</strong></div>
+            <div class="tile"><span>Жиры</span><strong id="sF">0 г</strong></div>
+            <div class="tile"><span>Углеводы</span><strong id="sC">0 г</strong></div>
+          </div>
+          <p class="muted small" id="kcalHint">Удобный диапазон для планировщика: 150–900 ккал на порцию.</p>
+
+          <p class="err" id="dishErr" role="alert"></p>
+          <div class="form-actions">
+            <button class="btn" type="submit" id="dishSave">Сохранить блюдо</button>
+            <button class="btn ghost" type="button" id="dishReset">Очистить</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ПРОДУКТЫ -->
+    <section id="tab-products" class="layout" hidden>
+      <aside class="card stack">
+        <div class="panel-title">
+          <h2>Продукты</h2>
+          <p class="muted small">База для состава блюд</p>
+        </div>
+        <div class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input type="search" id="prodQ" placeholder="Найти продукт…" autocomplete="off" aria-label="Поиск продуктов">
+        </div>
+        <ul class="list" id="prodList"></ul>
+      </aside>
+
+      <form id="prodForm" class="card stack" novalidate>
+        <div class="panel-title">
+          <h2>Новый продукт</h2>
+          <p class="muted small">КБЖУ указываются на 100 г.</p>
+        </div>
+        <label class="f">Название<input type="text" id="pName" maxlength="255" required></label>
+        <label class="f">Категория<select id="pCat"></select></label>
+        <div class="three">
+          <label class="f">Ккал<input type="number" id="pKcal" min="0" step="0.1" required></label>
+          <label class="f">Белки, г<input type="number" id="pP" min="0" step="0.1" required></label>
+          <label class="f">Жиры, г<input type="number" id="pF" min="0" step="0.1" required></label>
+        </div>
+        <label class="f">Углеводы, г<input type="number" id="pC" min="0" step="0.1" required></label>
+        <p class="err" id="prodErr" role="alert"></p>
+        <button class="btn" type="submit">Добавить продукт</button>
+      </form>
+    </section>
   </div>
 </main>
-<datalist id="prods"></datalist>
+
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const API = location.protocol === 'file:' ? 'http://localhost:8080' : '';
 const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
 const fmt = new Intl.NumberFormat('ru-RU', {maximumFractionDigits: 0});
 const fmt1 = new Intl.NumberFormat('ru-RU', {maximumFractionDigits: 1});
-const TYPES = [['BREAKFAST', 'Завтрак'], ['SNACK', 'Перекус'], ['LUNCH', 'Обед'], ['DINNER', 'Ужин'], ['SECOND_SNACK', 'Поздний перекус']];
-const byName = new Map();   // название продукта (нижний регистр) -> продукт
-let adminKey = '';
-try { adminKey = sessionStorage.getItem('pc.adminKey') || ''; } catch {}
+const TYPES = [
+  ['BREAKFAST', 'Завтрак'], ['SNACK', 'Перекус'], ['LUNCH', 'Обед'],
+  ['DINNER', 'Ужин'], ['SECOND_SNACK', 'Поздний перекус']
+];
+const MEAL = Object.fromEntries(TYPES);
+const CATS = [
+  ['MEAT', 'Мясо и птица'], ['FISH', 'Рыба'], ['SEAFOOD', 'Морепродукты'], ['DAIRY', 'Молочные'],
+  ['EGGS', 'Яйца'], ['GRAINS', 'Крупы и мука'], ['PASTA', 'Макароны'], ['BREAD', 'Хлеб'],
+  ['VEGETABLES', 'Овощи'], ['FRUITS', 'Фрукты'], ['BERRIES', 'Ягоды'], ['NUTS', 'Орехи'],
+  ['LEGUMES', 'Бобовые'], ['OIL', 'Масла'], ['SAUCES', 'Соусы'], ['SWEETS', 'Сладкое'],
+  ['BEVERAGES', 'Напитки'], ['OTHER', 'Прочее']
+];
+const CAT = Object.fromEntries(CATS);
+
+const state = {
+  tab: 'dishes',
+  dishes: [],
+  products: [],
+  selectedDishId: null,
+  ingredients: [], // {id, name, calories, protein, fat, carbohydrates, amount}
+  suggest: [],
+  suggestIdx: -1
+};
 
 function h(tag, props, ...kids) {
   const e = document.createElement(tag);
-  for (const [k, v] of Object.entries(props || {})) e.setAttribute(k, v);
-  e.append(...kids.flat().filter(x => x != null));
+  for (const [k, v] of Object.entries(props || {})) {
+    if (k === 'class') e.className = v;
+    else if (k.startsWith('on') && typeof v === 'function') e.addEventListener(k.slice(2).toLowerCase(), v);
+    else if (v === false || v == null) continue;
+    else if (v === true) e.setAttribute(k, '');
+    else e.setAttribute(k, v);
+  }
+  e.append(...kids.flat().filter(x => x != null && x !== false));
   return e;
 }
+
+const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
 
 async function api(path, opts = {}) {
   let res;
   try {
-    res = await fetch(API + path, {...opts, headers: {Accept: 'application/json',
-      ...(opts.body ? {'Content-Type': 'application/json'} : {}), ...(adminKey ? {'X-Admin-Key': adminKey} : {})}});
-  } catch { throw Object.assign(new Error('Сервер не отвечает. Откройте страницу по адресу http://localhost:8080/admin.html'), {status: 0}); }
+    res = await fetch(API + path, {
+      ...opts,
+      credentials: 'same-origin',
+      headers: {
+        Accept: 'application/json',
+        ...(opts.body ? {'Content-Type': 'application/json'} : {}),
+        ...(opts.headers || {})
+      }
+    });
+  } catch {
+    throw Object.assign(new Error('Сервер не отвечает. Откройте http://localhost:8080/admin.html'), {status: 0});
+  }
   const text = await res.text();
   let data = null;
   try { data = text ? JSON.parse(text) : null; } catch {}
   if (!res.ok) {
     const detail = (data && (data.detail || data.message)) || '';
-    const msg = res.status === 401 ? 'Неверный ключ администратора.'
-      : /already exists/i.test(detail) ? 'Блюдо с таким названием уже есть.'
-      : res.status === 404 ? 'Не найдено: проверьте, что все продукты существуют.'
-      : res.status === 400 ? 'Проверьте данные: название, типы приёмов и состав.'
-      : res.status >= 500 ? 'Ошибка на сервере. Подробности в логе приложения.' : (detail || 'Не удалось выполнить запрос.');
+    const msg = res.status === 401 ? (path.startsWith('/api/auth/login') ? 'Неверный email или пароль.' : 'Нужно войти как администратор.')
+      : res.status === 403 ? 'Недостаточно прав: нужна роль администратора.'
+      : /already exists|уже есть/i.test(detail) ? detail
+      : res.status === 409 ? 'Нельзя удалить: запись используется в планах или блюдах.'
+      : res.status === 404 ? 'Не найдено.'
+      : res.status === 400 ? (detail || 'Проверьте введённые данные.')
+      : res.status >= 500 ? 'Ошибка на сервере.' : (detail || 'Не удалось выполнить запрос.');
     throw Object.assign(new Error(msg), {status: res.status});
   }
   return data;
 }
 
-let timer;
+let toastTimer;
 function toast(msg) {
-  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
-  clearTimeout(timer); timer = setTimeout(() => t.classList.remove('on'), 5000);
+  const t = $('#toast');
+  t.textContent = msg; t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 4200);
 }
 
-/* вход по ключу */
+/* ---------- auth ---------- */
+function showGate(msg = '') {
+  $('#app').hidden = true; $('#tabs').hidden = true; $('#logout').hidden = true;
+  $('#gate').hidden = false;
+  $('#gateErr').textContent = msg;
+}
+
+function showApp() {
+  $('#gate').hidden = true;
+  $('#app').hidden = false;
+  $('#tabs').hidden = false;
+  $('#logout').hidden = false;
+  showTab(state.tab);
+}
+
+async function requireAdmin() {
+  const me = await api('/api/auth/me');
+  if (me.role !== 'ADMIN') {
+    try { await api('/api/auth/logout', {method: 'POST'}); } catch {}
+    throw Object.assign(new Error('Этот аккаунт не администратор.'), {status: 403});
+  }
+  await api('/api/admin/ping');
+  return me;
+}
+
 async function start() {
-  try { await api('/api/admin/ping'); $('#gate').hidden = true; $('#panel').hidden = false; searchProducts(''); }
-  catch (e) {
-    if (e.status === 401) { $('#panel').hidden = true; $('#gate').hidden = false; $('#gateErr').textContent = adminKey ? e.message : ''; }
-    else toast(e.message);
+  try {
+    await requireAdmin();
+    showApp();
+    await Promise.all([loadDishes(), loadProducts()]);
+  } catch (e) {
+    showGate(e.status === 401 ? '' : e.message);
   }
 }
-$('#gateForm').addEventListener('submit', e => {
+
+$('#gateForm').addEventListener('submit', async e => {
   e.preventDefault();
-  adminKey = $('#key').value.trim();
-  try { sessionStorage.setItem('pc.adminKey', adminKey); } catch {}
-  start();
+  const err = $('#gateErr'), btn = e.target.querySelector('button[type=submit]');
+  err.textContent = '';
+  const email = $('#email').value.trim();
+  const password = $('#password').value;
+  if (!email || password.length < 6) { err.textContent = 'Укажите email и пароль (от 6 символов).'; return; }
+  btn.disabled = true;
+  try {
+    const me = await api('/api/auth/login', {method: 'POST', body: JSON.stringify({email, password})});
+    if (me.role !== 'ADMIN') {
+      try { await api('/api/auth/logout', {method: 'POST'}); } catch {}
+      throw Object.assign(new Error('Этот аккаунт не администратор.'), {status: 403});
+    }
+    await api('/api/admin/ping');
+    showApp();
+    await Promise.all([loadDishes(), loadProducts()]);
+  } catch (ex) {
+    err.textContent = ex.message;
+  } finally { btn.disabled = false; }
 });
 
-/* продукты */
-async function searchProducts(q) {
-  try {
-    const list = await api('/api/products?q=' + encodeURIComponent(q.trim()));
-    list.forEach(p => byName.set(p.name.toLowerCase(), p));
-    $('#prods').replaceChildren(...list.map(p => h('option', {value: p.name})));
-  } catch (e) { toast(e.message); }
-}
-const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
-const productOf = row => byName.get(row.ref.name.value.trim().toLowerCase()) || null;
+$('#logout').onclick = async () => {
+  try { await api('/api/auth/logout', {method: 'POST'}); } catch {}
+  showGate();
+  $('#email').value = ''; $('#password').value = '';
+};
 
-/* ингредиенты */
-function addRow() {
-  const name = h('input', {type: 'text', list: 'prods', placeholder: 'Начните вводить продукт', 'aria-label': 'Продукт', autocomplete: 'off'});
-  const grams = h('input', {type: 'number', min: '1', step: '1', placeholder: 'г', 'aria-label': 'Граммы', inputmode: 'numeric'});
-  const info = h('small', {class: 'muted'});
-  const del = h('button', {type: 'button', class: 'x', 'aria-label': 'Убрать ингредиент', title: 'Убрать'}, '×');
-  const row = h('div', {class: 'ing'}, h('div', {}, name, info), grams, del);
-  row.ref = {name, grams, info};
-  name.addEventListener('input', debounce(() => searchProducts(name.value), 250));
-  name.addEventListener('input', () => { info.textContent = ''; recalc(); });
-  name.addEventListener('change', () => {
-    const p = productOf(row);
-    info.textContent = p ? `${fmt.format(p.calories)} ккал на 100 г` : 'Выберите продукт из списка';
-    recalc();
-  });
-  grams.addEventListener('input', recalc);
-  del.addEventListener('click', () => { row.remove(); recalc(); });
-  $('#ings').append(row);
-  return row;
+/* ---------- tabs ---------- */
+function showTab(name) {
+  state.tab = name;
+  $('#tab-dishes').hidden = name !== 'dishes';
+  $('#tab-products').hidden = name !== 'products';
+  $$('#tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === name));
 }
-const rows = () => [...document.querySelectorAll('#ings .ing')];
+$$('#tabs button').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
+
+/* ---------- dishes list ---------- */
+async function loadDishes(q = $('#dishQ')?.value || '') {
+  try {
+    state.dishes = await api('/api/dishes?q=' + encodeURIComponent(q.trim()));
+    renderDishList();
+  } catch (e) {
+    if (e.status === 401) return start();
+    $('#dishList').replaceChildren(h('li', {class: 'empty'}, e.message));
+  }
+}
+
+function renderDishList() {
+  const list = $('#dishList');
+  if (!state.dishes.length) {
+    list.replaceChildren(h('li', {class: 'empty'}, 'Блюд не найдено.'));
+    return;
+  }
+  list.replaceChildren(...state.dishes.map(d => {
+    const li = h('li', {class: state.selectedDishId === d.id ? 'on' : ''},
+      h('button', {type: 'button', class: 'row', onclick: () => openDish(d.id)},
+        h('div', {},
+          h('strong', {}, d.name),
+          h('div', {class: 'meta'},
+            h('span', {class: 'muted small'}, `${fmt.format(d.calories)} ккал`),
+            ...(d.mealTypes || []).map(t => h('span', {class: 'tag', 'data-t': t}, MEAL[t] || t))
+          )
+        )
+      ),
+      h('div', {class: 'actions'},
+        h('button', {type: 'button', class: 'btn danger sm', onclick: () => removeDish(d)}, 'Удалить')
+      )
+    );
+    return li;
+  }));
+}
+
+async function openDish(id) {
+  state.selectedDishId = id;
+  renderDishList();
+  const box = $('#dishView');
+  box.hidden = false;
+  box.replaceChildren(h('p', {class: 'muted'}, 'Загрузка…'));
+  try {
+    const d = await api('/api/dishes/' + id);
+    box.replaceChildren(
+      h('div', {class: 'head'},
+        h('div', {class: 'panel-title'},
+          h('h2', {}, d.name),
+          h('p', {class: 'muted small'}, [
+            d.cookingTime ? `${d.cookingTime} мин` : null,
+            `${fmt.format(d.calories)} ккал`
+          ].filter(Boolean).join(' · '))
+        ),
+        h('button', {type: 'button', class: 'btn ghost sm', onclick: () => { state.selectedDishId = null; box.hidden = true; renderDishList(); }}, 'Скрыть')
+      ),
+      d.description ? h('p', {}, d.description) : null,
+      h('div', {class: 'chips'}, ...(d.mealTypes || []).map(t => h('span', {class: 'tag', 'data-t': t}, MEAL[t] || t))),
+      h('h3', {}, 'Состав'),
+      h('ul', {class: 'ing-list detail'},
+        ...(d.ingredients || []).map(i => h('li', {},
+          h('span', {}, i.productName),
+          h('span', {class: 'muted'}, `${fmt.format(i.amount)} г · ${fmt.format(i.calories)} ккал`)
+        ))
+      )
+    );
+  } catch (e) {
+    if (e.status === 401) return start();
+    box.replaceChildren(h('p', {class: 'err'}, e.message));
+  }
+}
+
+async function removeDish(d) {
+  if (!confirm(`Удалить блюдо «${d.name}»?`)) return;
+  try {
+    await api('/api/dishes/' + d.id, {method: 'DELETE'});
+    if (state.selectedDishId === d.id) { state.selectedDishId = null; $('#dishView').hidden = true; }
+    toast(`«${d.name}» удалено.`);
+    loadDishes($('#dishQ').value);
+  } catch (e) {
+    if (e.status === 401) return start();
+    toast(e.message);
+  }
+}
+
+$('#dishQ').addEventListener('input', debounce(() => loadDishes($('#dishQ').value), 250));
+$('#newDish').onclick = () => {
+  $('#dishForm').scrollIntoView({behavior: 'smooth', block: 'start'});
+  $('#dName').focus();
+};
+
+/* ---------- dish form ---------- */
+$('#dTypes').append(...TYPES.map(([v, t]) =>
+  h('label', {class: 'chip'}, h('input', {type: 'checkbox', name: 'type', value: v}), h('span', {}, t))));
 
 function recalc() {
-  let k = 0, p = 0, f = 0, c = 0, w = 0;
-  for (const row of rows()) {
-    const prod = productOf(row), g = +row.ref.grams.value;
-    if (!prod || !(g > 0)) continue;
-    k += (prod.calories || 0) * g / 100; p += (prod.protein || 0) * g / 100;
-    f += (prod.fat || 0) * g / 100; c += (prod.carbohydrates || 0) * g / 100; w += g;
+  let k = 0, p = 0, f = 0, c = 0;
+  for (const i of state.ingredients) {
+    const g = +i.amount || 0;
+    if (!(g > 0)) continue;
+    k += (i.calories || 0) * g / 100;
+    p += (i.protein || 0) * g / 100;
+    f += (i.fat || 0) * g / 100;
+    c += (i.carbohydrates || 0) * g / 100;
   }
-  $('#kcal').textContent = `${fmt.format(k)} ккал`;
-  $('#p').textContent = `${fmt1.format(p)} г`; $('#f').textContent = `${fmt1.format(f)} г`;
-  $('#c').textContent = `${fmt1.format(c)} г`; $('#w').textContent = `${fmt.format(w)} г`;
+  $('#sKcal').textContent = fmt.format(k);
+  $('#sP').textContent = `${fmt1.format(p)} г`;
+  $('#sF').textContent = `${fmt1.format(f)} г`;
+  $('#sC').textContent = `${fmt1.format(c)} г`;
+  const hint = $('#kcalHint');
+  if (k > 0 && (k < 150 || k > 900)) {
+    hint.textContent = k < 150
+      ? 'Порция довольно лёгкая — планировщику может понадобиться множитель больше 1.'
+      : 'Порция тяжёлая — планировщик часто уменьшит её ниже 1.';
+  } else {
+    hint.textContent = 'Удобный диапазон для планировщика: 150–900 ккал на порцию.';
+  }
 }
 
-/* форма */
-$('#types').append(...TYPES.map(([v, t]) =>
-  h('label', {class: 'chip'}, h('input', {type: 'checkbox', name: 'type', value: v}), h('span', {}, t))));
-$('#addIng').onclick = () => addRow().ref.name.focus();
-addRow();
-
-// Формат запроса POST /api/dishes. Если ваш DishCreateDto называет поля иначе, поправьте только здесь.
-function buildPayload(name, description, time, types, ingredients) {
-  return {name, description, ...(time ? {cookingTime: time} : {}), mealTypes: types,
-    ingredients: ingredients.map(i => ({product: {id: i.product.id}, amount: i.grams}))};
+function renderIngs() {
+  const box = $('#ings');
+  $('#ingsEmpty').hidden = state.ingredients.length > 0;
+  box.replaceChildren(...state.ingredients.map((item, idx) => {
+    const grams = h('input', {type: 'number', min: '1', step: '1', value: String(item.amount || ''), inputmode: 'numeric', 'aria-label': `Граммы: ${item.name}`});
+    grams.addEventListener('input', () => { item.amount = +grams.value; recalc(); });
+    return h('div', {class: 'ing'},
+      h('div', {},
+        h('span', {class: 'nm'}, item.name),
+        h('span', {class: 'kcal'}, `${fmt.format(item.calories || 0)} ккал / 100 г`)
+      ),
+      grams,
+      h('button', {type: 'button', class: 'x', title: 'Убрать', 'aria-label': `Убрать ${item.name}`,
+        onclick: () => { state.ingredients.splice(idx, 1); renderIngs(); recalc(); }}, '×')
+    );
+  }));
+  recalc();
 }
 
-$('#dish').addEventListener('submit', async e => {
+function addIngredient(product) {
+  if (state.ingredients.some(i => i.id === product.id)) {
+    toast(`«${product.name}» уже в составе.`);
+    return;
+  }
+  state.ingredients.push({
+    id: product.id, name: product.name,
+    calories: product.calories, protein: product.protein,
+    fat: product.fat, carbohydrates: product.carbohydrates,
+    amount: 100
+  });
+  renderIngs();
+  $('#ingSearch').value = '';
+  hideSuggest();
+  toast(`Добавлен «${product.name}».`);
+}
+
+async function searchForIng(q) {
+  const box = $('#ingSuggest');
+  if (!q.trim()) { hideSuggest(); return; }
+  try {
+    state.suggest = await api('/api/products?q=' + encodeURIComponent(q.trim()));
+    state.suggestIdx = state.suggest.length ? 0 : -1;
+    if (!state.suggest.length) {
+      box.hidden = false;
+      box.replaceChildren(h('button', {type: 'button', disabled: true}, 'Ничего не найдено — добавьте продукт на вкладке «Продукты»'));
+      return;
+    }
+    box.hidden = false;
+    box.replaceChildren(...state.suggest.map((p, i) =>
+      h('button', {
+        type: 'button', role: 'option', 'aria-selected': i === state.suggestIdx,
+        onclick: () => addIngredient(p)
+      }, h('span', {}, p.name), h('span', {class: 'muted small'}, `${fmt.format(p.calories)} ккал`))
+    ));
+  } catch (e) {
+    if (e.status === 401) return start();
+    toast(e.message);
+  }
+}
+
+function hideSuggest() {
+  $('#ingSuggest').hidden = true;
+  state.suggest = [];
+  state.suggestIdx = -1;
+}
+
+function highlightSuggest() {
+  $$('#ingSuggest button').forEach((b, i) => b.setAttribute('aria-selected', i === state.suggestIdx));
+}
+
+$('#ingSearch').addEventListener('input', debounce(e => searchForIng(e.target.value), 200));
+$('#ingSearch').addEventListener('keydown', e => {
+  if ($('#ingSuggest').hidden || !state.suggest.length) return;
+  if (e.key === 'ArrowDown') { e.preventDefault(); state.suggestIdx = Math.min(state.suggest.length - 1, state.suggestIdx + 1); highlightSuggest(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); state.suggestIdx = Math.max(0, state.suggestIdx - 1); highlightSuggest(); }
+  else if (e.key === 'Enter' && state.suggestIdx >= 0) { e.preventDefault(); addIngredient(state.suggest[state.suggestIdx]); }
+  else if (e.key === 'Escape') hideSuggest();
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.picker')) hideSuggest();
+});
+
+function resetDishForm() {
+  $('#dishForm').reset();
+  state.ingredients = [];
+  renderIngs();
+  $('#dishErr').textContent = '';
+  hideSuggest();
+}
+$('#dishReset').onclick = resetDishForm;
+
+$('#dishForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const err = $('#err'), btn = $('#save');
+  const err = $('#dishErr'), btn = $('#dishSave');
   err.textContent = '';
-  const name = $('#name').value.trim();
-  const types = [...document.querySelectorAll('input[name=type]:checked')].map(i => i.value);
-  const ingredients = [];
-  for (const row of rows()) {
-    const product = productOf(row), grams = +row.ref.grams.value;
-    if (!row.ref.name.value.trim() && !row.ref.grams.value) continue;   // пустую строку пропускаем
-    if (!product) { err.textContent = 'В каждой строке выберите продукт из списка.'; return; }
-    if (!(grams > 0)) { err.textContent = `Укажите граммы для продукта «${product.name}».`; return; }
-    ingredients.push({product, grams});
-  }
-  if (!name) { err.textContent = 'Укажите название блюда.'; return; }
+  const name = $('#dName').value.trim();
+  const types = $$('input[name=type]:checked').map(i => i.value);
+  const ingredients = state.ingredients
+    .filter(i => i.amount > 0)
+    .map(i => ({productId: i.id, amount: +i.amount}));
+
+  if (!name) { err.textContent = 'Укажите название.'; return; }
   if (!types.length) { err.textContent = 'Отметьте хотя бы один приём пищи.'; return; }
-  if (!ingredients.length) { err.textContent = 'Добавьте хотя бы один ингредиент.'; return; }
-  if (new Set(ingredients.map(i => i.product.id)).size !== ingredients.length) { err.textContent = 'Продукт в составе указан дважды.'; return; }
+  if (!ingredients.length) { err.textContent = 'Добавьте хотя бы один продукт в состав.'; return; }
+
+  const body = {
+    name,
+    description: $('#dDesc').value.trim() || null,
+    cookingTime: +$('#dTime').value || null,
+    mealTypes: types,
+    ingredients
+  };
 
   btn.disabled = true;
   try {
-    const d = await api('/api/dishes', {method: 'POST',
-      body: JSON.stringify(buildPayload(name, $('#desc').value.trim(), +$('#time').value || null, types, ingredients))});
-    toast(`Блюдо «${d.name || name}» добавлено.`);
-    $('#addedTitle').hidden = false;
-    $('#added').prepend(h('li', {}, h('span', {}, d.name || name), h('span', {class: 'muted'}, d.calories != null ? `${fmt.format(d.calories)} ккал` : '')));
-    e.target.reset(); $('#ings').replaceChildren(); addRow(); recalc(); $('#name').focus();
+    const d = await api('/api/dishes', {method: 'POST', body: JSON.stringify(body)});
+    toast(`Блюдо «${d.name}» сохранено · ${fmt.format(d.calories)} ккал`);
+    resetDishForm();
+    await loadDishes($('#dishQ').value);
+    openDish(d.id);
   } catch (ex) {
     if (ex.status === 401) start(); else err.textContent = ex.message;
   } finally { btn.disabled = false; }
 });
 
+/* ---------- products ---------- */
+$('#pCat').append(...CATS.map(([v, t]) => h('option', {value: v}, t)));
+
+async function loadProducts(q = $('#prodQ')?.value || '') {
+  try {
+    state.products = await api('/api/products?q=' + encodeURIComponent(q.trim()));
+    renderProdList();
+  } catch (e) {
+    if (e.status === 401) return start();
+    $('#prodList').replaceChildren(h('li', {class: 'empty'}, e.message));
+  }
+}
+
+function renderProdList() {
+  const list = $('#prodList');
+  if (!state.products.length) {
+    list.replaceChildren(h('li', {class: 'empty'}, 'Продуктов не найдено.'));
+    return;
+  }
+  list.replaceChildren(...state.products.map(p =>
+    h('li', {},
+      h('div', {class: 'row', style: 'cursor:default'},
+        h('div', {},
+          h('strong', {}, p.name),
+          h('div', {class: 'meta'},
+            h('span', {class: 'tag'}, CAT[p.category] || p.category || 'Прочее'),
+            h('span', {class: 'muted small'}, `${fmt.format(p.calories)} ккал / 100 г`)
+          )
+        )
+      ),
+      h('div', {class: 'actions'},
+        h('button', {type: 'button', class: 'btn danger sm', onclick: () => removeProduct(p)}, 'Удалить')
+      )
+    )
+  ));
+}
+
+async function removeProduct(p) {
+  if (!confirm(`Удалить продукт «${p.name}»?`)) return;
+  try {
+    await api('/api/products/' + p.id, {method: 'DELETE'});
+    toast(`«${p.name}» удалён.`);
+    loadProducts($('#prodQ').value);
+  } catch (e) {
+    if (e.status === 401) return start();
+    toast(e.message);
+  }
+}
+
+$('#prodQ').addEventListener('input', debounce(() => loadProducts($('#prodQ').value), 250));
+
+$('#prodForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = $('#prodErr'), btn = e.target.querySelector('button[type=submit]');
+  err.textContent = '';
+  const body = {
+    name: $('#pName').value.trim(),
+    category: $('#pCat').value,
+    calories: +$('#pKcal').value,
+    protein: +$('#pP').value,
+    fat: +$('#pF').value,
+    carbohydrates: +$('#pC').value
+  };
+  if (!body.name) { err.textContent = 'Укажите название.'; return; }
+  if ([body.calories, body.protein, body.fat, body.carbohydrates].some(v => !(v >= 0))) {
+    err.textContent = 'Заполните КБЖУ (числа ≥ 0).'; return;
+  }
+  btn.disabled = true;
+  try {
+    const p = await api('/api/products', {method: 'POST', body: JSON.stringify(body)});
+    toast(`Продукт «${p.name}» добавлен.`);
+    e.target.reset();
+    $('#pCat').value = 'OTHER';
+    await loadProducts($('#prodQ').value);
+  } catch (ex) {
+    if (ex.status === 401) start(); else err.textContent = ex.message;
+  } finally { btn.disabled = false; }
+});
+
+renderIngs();
 start();
 </script>
 </body>

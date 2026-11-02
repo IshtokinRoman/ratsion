@@ -1,6 +1,8 @@
 package ru.productmanager.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(
@@ -10,6 +12,8 @@ import jakarta.persistence.*;
                 columnNames = {"dish_id", "meal_type"}
         )
 )
+@Getter
+@Setter
 public class MealTypeByDish {
 
     @Id

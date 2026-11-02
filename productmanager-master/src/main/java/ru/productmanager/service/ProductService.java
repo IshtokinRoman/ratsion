@@ -44,6 +44,6 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public List<Product> search(String query) {
-        return repository.findByNameContainingIgnoreCase(query.trim(), PageRequest.of(0, 50, Sort.by("name"))).getContent();
+        return repository.findByNameContainingIgnoreCase(query.trim(), PageRequest.of(0, 100, Sort.by("name"))).getContent();
     }
 }

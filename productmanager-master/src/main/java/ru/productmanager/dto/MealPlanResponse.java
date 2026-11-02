@@ -5,14 +5,18 @@ import ru.productmanager.model.MealPlan;
 import ru.productmanager.model.MealPortion;
 import ru.productmanager.model.MealType;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 
 public record MealPlanResponse(
         Long id,
+        String name,
         Long ownerId,
         Long familyId,
         int days,
+        LocalDate startDate,
+        boolean active,
         List<MealItem> meals
 ) {
     public record MemberPortion(Long profileId, String name, double portion) {
@@ -31,7 +35,7 @@ public record MealPlanResponse(
 
     public static MealPlanResponse from(MealPlan plan) {
         List<MealItem> items = plan.getMeals().stream()
-                .sorted(Comparator.comparingInt(Meal::getDayNumber)) // сортировка стабильная
+                .sorted(Comparator.comparingInt(Meal::getDayNumber))
                 .map(m -> new MealItem(
                         m.getId(),
                         m.getDayNumber(),
@@ -50,9 +54,12 @@ public record MealPlanResponse(
 
         return new MealPlanResponse(
                 plan.getId(),
+                plan.getName(),
                 plan.getOwner().getId(),
                 plan.getFamily() == null ? null : plan.getFamily().getId(),
                 plan.getDays(),
+                plan.getStartDate(),
+                plan.isActive(),
                 items);
     }
 }

@@ -25,7 +25,7 @@ services:
 
   # приложение в контейнере: docker compose --profile app up -d --build
   app:
-    build: ../../AppData/Local/Temp
+    build: .
     profiles: ["app"]
     depends_on:
       db:
@@ -35,7 +35,8 @@ services:
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-productmanager}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
-      ADMIN_KEY: ${ADMIN_KEY:-}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
     ports:
       - "8080:8080"
 

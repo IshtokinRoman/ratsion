@@ -2,6 +2,8 @@ package ru.productmanager.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -20,6 +22,16 @@ public class UserProfile {
     private String lastName;
 
     private String email;
+
+    /** BCrypt-хеш пароля; в API не отдаётся. */
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.USER;
 
     private Double height;
 

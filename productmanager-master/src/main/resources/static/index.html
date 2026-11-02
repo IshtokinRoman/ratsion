@@ -3,158 +3,317 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Продуктовый консультант</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<title>Рацион</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#1d2145;--page:#edf1f7;--card:#fff;--line:#d8e0ec;--muted:#566083;--lime:#d4f04f;--radish:#cf2e66;
---display:"Unbounded","Montserrat",system-ui,sans-serif;--body:"Onest",system-ui,"Segoe UI",sans-serif}
-*{box-sizing:border-box}
-[hidden]{display:none!important}
-body{margin:0;background:var(--page);color:var(--ink);font:400 1rem/1.55 var(--body)}
-h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:0}
-h1{font-size:clamp(1.8rem,1rem+2.6vw,2.9rem)}h2{font-size:1.3rem}h3{font-size:1rem}
+:root{
+  --ink:#142821; --ink-2:#1f3a31; --page:#e7eee9; --card:#fffdf8; --line:#d5e0d8;
+  --muted:#5d7268; --lime:#c9f04d; --lime-deep:#a8d123; --radish:#d6455d;
+  --soft:#dfeae3; --wash:#f4f7f4;
+  --display:"Unbounded",system-ui,sans-serif; --body:"Manrope",system-ui,"Segoe UI",sans-serif;
+  --shadow:0 12px 40px -18px rgba(20,40,33,.35); --radius:22px;
+}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--ink);font:400 1rem/1.55 var(--body);
+  background:
+    radial-gradient(ellipse 70% 50% at 0% 0%,#d9f0b8 0%,transparent 50%),
+    radial-gradient(ellipse 55% 45% at 100% 10%,#cfe3da 0%,transparent 48%),
+    linear-gradient(180deg,#eef4ef 0%,var(--page) 40%,#dde8e1 100%)}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.03em;line-height:1.12;margin:0}
+h1{font-size:clamp(2rem,1.1rem+3vw,3.2rem)}h2{font-size:clamp(1.15rem,.95rem+1vw,1.45rem)}h3{font-size:1.02rem}
 p{margin:0}.muted{color:var(--muted)}.small{font-size:.875rem}
 :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 button{font:inherit;cursor:pointer}
-.logo{display:flex;align-items:center;gap:.6rem;font:600 .95rem var(--display);letter-spacing:-.02em}
-.logo svg{width:30px;height:30px;flex:none}
+.logo{display:flex;align-items:center;gap:.65rem;font:600 .92rem var(--display);letter-spacing:-.02em}
+.logo svg{width:32px;height:32px;flex:none}
+.logo-mark{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--lime);flex:none}
+.logo-mark svg{width:18px;height:18px}
 
-/* auth */
-.auth{min-height:100vh;display:grid;grid-template-columns:5fr 6fr}
-.hero{background:var(--ink);color:#fff;padding:clamp(1.5rem,4vw,3.5rem);display:flex;flex-direction:column;justify-content:space-between;gap:2.5rem}
-.hero .logo{color:#fff}
-.hero p.lead{max-width:34ch;color:#c9cfee;margin-top:1.1rem}
-.sample{background:#fff;color:var(--ink);border-radius:18px;padding:1.1rem 1.25rem;max-width:23rem;box-shadow:0 18px 40px rgba(0,0,0,.28);animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
-@keyframes rise{from{transform:translateY(40px) rotate(-3deg);opacity:0}to{transform:none;opacity:1}}
-.sample h3{margin-bottom:.6rem}
-.row{display:flex;justify-content:space-between;gap:1rem;padding:.45rem 0;border-top:1px solid var(--line)}
-.row span:last-child{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
-.panel{display:flex;align-items:center;justify-content:center;padding:2rem 1.25rem}
-.panel>div{width:100%;max-width:30rem}
-.tabs{display:inline-flex;background:#dfe6f1;border-radius:12px;padding:4px;margin-bottom:1.5rem}
-.tabs button{border:0;background:none;padding:.55rem 1.2rem;border-radius:9px;color:var(--muted);font-weight:500}
-.tabs button[aria-selected=true]{background:var(--lime);color:var(--ink)}
-form.stack{display:grid;gap:1.1rem}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-label.f,fieldset{display:grid;gap:.35rem;font-weight:500;font-size:.9rem;border:0;padding:0;margin:0;min-width:0}
-legend{padding:0;margin-bottom:.35rem;font-weight:500;font-size:.9rem}
-input[type=number],input[type=date],input[type=text],input[type=email],select{width:100%;font:inherit;color:inherit;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:.65rem .8rem}
-input:focus,select:focus{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px #d4f04f99}
-.seg{display:flex;gap:4px;background:#dfe6f1;border-radius:12px;padding:4px}
+/* AUTH */
+.auth{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr}
+.hero{position:relative;overflow:hidden;color:#fff;padding:clamp(1.6rem,4vw,3.4rem);
+  background:
+    radial-gradient(circle at 85% 15%,#c9f04d33 0%,transparent 28%),
+    radial-gradient(circle at 10% 80%,#ffffff14 0%,transparent 35%),
+    linear-gradient(155deg,#0f2a22 0%,#1a4337 48%,#244f40 100%);
+  display:flex;flex-direction:column;justify-content:space-between;gap:2.5rem;animation:fadein .7s ease both}
+.hero::before{content:"";position:absolute;inset:auto -10% -20% 20%;height:70%;border-radius:50%;
+  background:radial-gradient(circle,#c9f04d22,#c9f04d00 70%);pointer-events:none}
+.hero::after{content:"";position:absolute;width:min(48vw,28rem);height:min(48vw,28rem);right:-8%;top:18%;
+  border-radius:50%;border:1.5px solid #ffffff18;pointer-events:none;animation:spinplate 40s linear infinite}
+@keyframes spinplate{to{transform:rotate(360deg)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hero .logo{color:#fff;position:relative;z-index:1}
+.hero-copy{position:relative;z-index:1;max-width:18ch;animation:rise .8s .1s ease both}
+.hero-copy .lead{margin-top:1.15rem;max-width:32ch;color:#d5e6dc;font-size:1.05rem;font-weight:500}
+.hero-plate{position:relative;z-index:1;max-width:22rem;animation:rise .9s .2s ease both}
+.hero-plate .pl{font:600 .78rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:#c9f04d;margin-bottom:.7rem}
+.hero-plate .line{display:flex;justify-content:space-between;gap:1rem;padding:.55rem 0;border-top:1px solid #ffffff22;font-weight:500}
+.hero-plate .line span:last-child{color:#b7cec2;font-variant-numeric:tabular-nums;white-space:nowrap}
+.panel{display:flex;align-items:center;justify-content:center;padding:clamp(1.2rem,3vw,2.5rem);animation:rise .65s .15s ease both}
+.panel-box{width:100%;max-width:28.5rem}
+.panel-box>h2{margin-bottom:.35rem}
+.panel-box>.muted{margin-bottom:1.25rem}
+.tabs{display:inline-flex;background:var(--soft);border-radius:14px;padding:4px;margin-bottom:1.35rem;gap:2px}
+.tabs button{border:0;background:none;padding:.6rem 1.15rem;border-radius:11px;color:var(--muted);font-weight:600;transition:background .2s,color .2s}
+.tabs button[aria-selected=true]{background:var(--ink);color:var(--lime)}
+form.stack{display:grid;gap:1rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+label.f,fieldset{display:grid;gap:.35rem;font-weight:600;font-size:.88rem;border:0;padding:0;margin:0;min-width:0}
+legend{padding:0;margin-bottom:.35rem;font-weight:600;font-size:.88rem}
+input[type=number],input[type=date],input[type=text],input[type=email],input[type=password],select,textarea{
+  width:100%;font:inherit;color:inherit;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:.72rem .85rem;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px #c9f04d88}
+.seg{display:flex;gap:4px;background:var(--soft);border-radius:14px;padding:4px}
 .seg label{flex:1;position:relative}
 .seg input{position:absolute;opacity:0;inset:0}
-.seg span{display:block;text-align:center;padding:.5rem .4rem;border-radius:9px;font-weight:500;font-size:.9rem;color:var(--muted);cursor:pointer}
+.seg span{display:block;text-align:center;padding:.55rem .35rem;border-radius:11px;font-weight:600;font-size:.88rem;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
 .seg input:checked+span{background:var(--lime);color:var(--ink)}
 .seg input:focus-visible+span{outline:3px solid var(--ink);outline-offset:1px}
-.btn{border:0;background:var(--ink);color:#fff;font-weight:600;padding:.85rem 1.4rem;border-radius:999px;display:inline-flex;gap:.6rem;align-items:center;justify-content:center}
-.btn:hover{background:#2c3270}.btn[disabled]{opacity:.7;cursor:wait}
-.btn.ghost{background:none;color:var(--ink);border:1.5px solid var(--line);padding:.45rem 1rem;font-weight:500}
-.btn.ghost:hover{border-color:var(--ink);background:none}
-.err{color:var(--radish);font-size:.9rem;font-weight:500;min-height:0}
+.seg input:disabled+span{opacity:.4;cursor:not-allowed}
+.btn{border:0;background:var(--ink);color:#fff;font-weight:700;padding:.9rem 1.45rem;border-radius:999px;
+  display:inline-flex;gap:.55rem;align-items:center;justify-content:center;transition:transform .15s,background .15s}
+.btn:hover{background:var(--ink-2)}.btn:active{transform:scale(.98)}.btn[disabled]{opacity:.65;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);padding:.5rem 1.05rem;font-weight:600}
+.btn.ghost:hover{border-color:var(--ink);background:var(--wash)}
+.btn.lime{background:var(--lime);color:var(--ink)}.btn.lime:hover{background:var(--lime-deep)}
+.err{color:var(--radish);font-size:.9rem;font-weight:600;min-height:0}
 .spin{width:1rem;height:1rem;border:2px solid #fff6;border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* app */
-.top{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem;padding:.7rem clamp(1rem,3vw,2.5rem);background:var(--card);border-bottom:1px solid var(--line)}
-.nav{display:flex;justify-content:center;gap:.25rem}
-.nav button{display:flex;align-items:center;gap:.5rem;border:0;background:none;padding:.55rem 1rem;border-radius:999px;color:var(--muted);font-weight:500}
-.nav svg,.me svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.nav button:hover{background:#eef1f8;color:var(--ink)}
-.nav button[aria-current=true]{background:var(--lime);color:var(--ink)}
-.me{display:flex;align-items:center;gap:.6rem;border:0;background:none;padding:.25rem .8rem .25rem .25rem;border-radius:999px;font-weight:500;color:var(--ink)}
-.me:hover{background:#eef1f8}
-.ava{display:grid;place-items:center;width:2.2rem;height:2.2rem;flex:none;border-radius:50%;background:var(--ink);color:var(--lime);font:600 .8rem var(--display)}
-.ava.big{width:4.5rem;height:4.5rem;font-size:1.3rem}
-.wrap{padding-bottom:2rem}
-.narrow{max-width:38rem;margin:0 auto;padding:1.5rem clamp(1rem,3vw,2.5rem);display:grid;gap:1.25rem}
-#view-plans{max-width:78rem;margin:0 auto;padding:1.5rem clamp(1rem,3vw,2.5rem)}
-.page-head{margin-bottom:1rem}
-.prof{display:flex;align-items:center;gap:1.1rem}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:.9rem 1rem;display:grid;gap:.15rem}
-.tile span{color:var(--muted);font-size:.85rem}
-.tile strong{font:600 1.05rem var(--display);letter-spacing:-.02em;overflow-wrap:anywhere}
-#view-plan aside{position:sticky;top:5rem}
-@keyframes viewin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.view-in{animation:viewin .28s ease both}
-.layout{display:grid;grid-template-columns:21rem minmax(0,1fr);gap:1.5rem;padding:1.5rem clamp(1rem,3vw,2.5rem);max-width:78rem;margin:0 auto;align-items:start}
-.card{background:var(--card);border-radius:20px;padding:1.4rem;border:1px solid var(--line);box-shadow:0 1px 2px rgba(29,33,69,.04),0 10px 28px -14px rgba(29,33,69,.18)}
-aside{display:grid;gap:1.25rem}
+/* APP SHELL */
+#app{min-height:100vh;animation:fadein .35s ease both}
+.top{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem;
+  padding:.65rem clamp(1rem,3vw,2.4rem);background:rgba(255,253,248,.86);backdrop-filter:blur(14px);
+  border-bottom:1px solid #d5e0d8cc}
+.nav{display:flex;justify-content:center;gap:.2rem;background:var(--soft);padding:4px;border-radius:999px;width:max-content;margin:0 auto}
+.nav button{display:flex;align-items:center;gap:.45rem;border:0;background:none;padding:.55rem 1.05rem;border-radius:999px;color:var(--muted);font-weight:600;transition:background .15s,color .15s}
+.nav svg,.me svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.nav button:hover{color:var(--ink)}
+.nav button[aria-current=true]{background:var(--ink);color:var(--lime)}
+.me{display:flex;align-items:center;gap:.55rem;border:0;background:var(--wash);padding:.25rem .85rem .25rem .25rem;border-radius:999px;font-weight:600;color:var(--ink);border:1px solid var(--line)}
+.me:hover{border-color:var(--ink)}
+.ava{display:grid;place-items:center;width:2.15rem;height:2.15rem;flex:none;border-radius:50%;background:var(--ink);color:var(--lime);font:700 .75rem var(--display)}
+.ava.big{width:4.4rem;height:4.4rem;font-size:1.25rem}
+.wrap{padding-bottom:2.4rem}
+.narrow{max-width:40rem;margin:0 auto;padding:1.6rem clamp(1rem,3vw,2.4rem);display:grid;gap:1.1rem}
+#view-plans{max-width:40rem;margin:0 auto;padding:1.6rem clamp(1rem,3vw,2.4rem)}
+.page-head{margin-bottom:1.1rem;display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap}
+.page-head>div{min-width:0}.page-head p{margin-top:.35rem}
+#view-manual{max-width:72rem;margin:0 auto;padding:1.35rem clamp(1rem,3vw,2.4rem) 2rem;display:grid;gap:1.15rem}
+#view-current{max-width:72rem;margin:0 auto;padding:1.35rem clamp(1rem,3vw,2.4rem) 2rem}
+#view-plan.layout{grid-template-columns:1fr;max-width:52rem}
+#view-today{max-width:40rem;margin:0 auto;padding:1.35rem clamp(1rem,3vw,2.4rem) 2rem;display:grid;gap:1rem}
+.today-hero{display:grid;gap:.55rem}
+.today-hero .date{font:700 .82rem var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.today-progress{display:grid;gap:.45rem;padding:1.1rem 1.2rem;border-radius:18px;background:var(--ink);color:#fff}
+.today-progress .row{display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
+.today-progress strong{font:700 1.35rem var(--display);letter-spacing:-.03em}
+.today-progress .bar{height:8px;border-radius:999px;background:#ffffff22;overflow:hidden}
+.today-progress .bar>i{display:block;height:100%;background:var(--lime);border-radius:inherit}
+.today-progress .hint{color:#b7cec2;font-size:.85rem;font-weight:500}
+.today-meals{display:grid;gap:.65rem}
+.today-meal{display:grid;grid-template-columns:1fr auto;gap:.55rem .9rem;align-items:center;padding:1rem 1.1rem;border:1.5px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow)}
+.today-meal.eaten{border-color:#b6d83a;background:#f7fbe8}
+.today-meal.skipped{opacity:.72;border-style:dashed}
+.today-meal .nm{font-weight:700}.today-meal .nm small{display:block;font-weight:500;color:var(--muted);margin-top:.15rem}
+.today-meal .acts{display:flex;flex-wrap:wrap;gap:.35rem;justify-content:end}
+.today-pick{display:grid;gap:.4rem;padding:1rem 1.1rem;border:1.5px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow)}
+.today-pick label{font-weight:700;font-size:.9rem}
+.today-pick select{width:100%}
+.today-pick .muted{margin:0}
+.plans .badge{display:inline-flex;align-items:center;margin-left:.45rem;padding:.12rem .5rem;border-radius:999px;background:var(--lime);color:var(--ink);font-size:.7rem;font-weight:700;vertical-align:middle}
+.manual-setup .composer-grid{grid-template-columns:1.1fr 1.35fr 1fr auto;align-items:end}
+.manual-board{display:grid;gap:1rem}
+.slot-grid{display:grid;gap:.65rem}
+.slot{display:grid;grid-template-columns:7.5rem 1fr auto;gap:.75rem;align-items:center;padding:1rem 1.1rem;border:1.5px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow)}
+.slot.empty{border-style:dashed;background:linear-gradient(180deg,#fffdf8,#f3f7f3)}
+.slot .slot-dish{font-weight:700;min-width:0}
+.slot .slot-dish small{display:block;font-weight:500;color:var(--muted);margin-top:.15rem}
+.slot .slot-actions{display:flex;flex-wrap:wrap;gap:.35rem;justify-content:end}
+.manual-foot{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.manual-foot .stat{color:var(--muted);font-size:.9rem;font-weight:600}
+.prof{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:.95rem 1rem;display:grid;gap:.2rem;box-shadow:var(--shadow)}
+.tile span{color:var(--muted);font-size:.82rem;font-weight:600}.tile strong{font:700 1.05rem var(--display);letter-spacing:-.02em;overflow-wrap:anywhere}
+@keyframes viewin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.view-in{animation:viewin .32s ease both}
+.layout{display:grid;gap:1.25rem;padding:1.35rem clamp(1rem,3vw,2.4rem) 2rem;max-width:72rem;margin:0 auto}
+.card{background:var(--card);border-radius:var(--radius);padding:1.35rem 1.4rem;border:1px solid var(--line);box-shadow:var(--shadow)}
+.composer{padding:1.25rem 1.35rem 1.4rem}
+.composer-top{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:1.15rem}
+.composer-top p{color:var(--muted);font-size:.9rem;margin-top:.3rem;max-width:42ch}
+.composer-grid{display:grid;grid-template-columns:1.1fr 1.35fr 1fr 1.2fr;gap:1rem 1.15rem;align-items:start}
+.composer-actions{display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap}
+.composer-actions .err{flex:1;min-width:10rem}
+.composer-actions .btn{min-width:12rem}
+.day-pick{display:flex;flex-wrap:wrap;gap:.4rem}
+.day-pick button{min-width:2.7rem;height:2.7rem;padding:0 .55rem;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.day-pick button:hover{border-color:var(--ink);color:var(--ink)}
+.day-pick button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--lime)}
+.cook-seg{display:flex;flex-wrap:wrap;gap:.35rem}
+.cook-seg button{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:.55rem .75rem;font-weight:600;color:var(--muted);font-size:.86rem}
+.cook-seg button:hover{border-color:var(--ink);color:var(--ink)}
+.cook-seg button[aria-pressed=true]{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+#cooks{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
+.field-note{margin-top:.45rem;font-size:.82rem}
 dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem;margin:.9rem 0 0}
-dt{color:var(--muted)}dd{margin:0;text-align:right;font-weight:500;overflow-wrap:anywhere}
-.step{display:flex;align-items:center;justify-content:space-between;border:1.5px solid var(--line);border-radius:12px;padding:.3rem}
-.step button{width:2.4rem;height:2.4rem;border:0;border-radius:9px;background:#dfe6f1;font-size:1.2rem;color:var(--ink)}
-.step output{font-weight:600;font-size:1.05rem}
-.empty{padding:3.5rem 1.5rem;text-align:center;background:var(--card);border:1.5px dashed #b9c4da;border-radius:20px;color:var(--muted)}
-.empty h2{color:var(--ink);margin-bottom:.6rem}
+dt{color:var(--muted)}dd{margin:0;text-align:right;font-weight:600;overflow-wrap:anywhere}
+.empty{padding:3.2rem 1.5rem;text-align:center;background:linear-gradient(180deg,#fffdf8,#f0f6f1);border:1.5px dashed #b7c9bc;border-radius:var(--radius);color:var(--muted)}
+.empty h2{color:var(--ink);margin-bottom:.55rem}
 .empty p{max-width:36ch;margin:0 auto}
-.head{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
-.days{display:flex;gap:.4rem;overflow-x:auto;padding-bottom:.4rem;margin-bottom:1rem}
-.days button{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:.45rem 1rem;white-space:nowrap;font-weight:500;color:var(--muted)}
-.days button[aria-pressed=true]{background:var(--lime);border-color:var(--lime);color:var(--ink)}
-details.meal{border-top:1px solid var(--line)}
-details.meal:first-child{border-top:0}
-summary{list-style:none;display:grid;grid-template-columns:8rem 1fr auto 1rem;gap:1rem;align-items:center;padding:.9rem .25rem;cursor:pointer}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"";width:.55rem;height:.55rem;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s}
-details[open] summary::after{transform:rotate(-135deg)}
-.kind{justify-self:start;font-size:.8rem;font-weight:500;padding:.2rem .7rem;border-radius:999px;background:#eef1f8;color:var(--muted)}
-.kind[data-t=BREAKFAST]{background:#f3fad0;color:#4d5a10}
-.kind[data-t=LUNCH]{background:#dfe9fb;color:#243a73}
-.kind[data-t=DINNER]{background:#e7e2f7;color:#3b2f78}
-.kind[data-t=SNACK],.kind[data-t=SECOND_SNACK]{background:#fde5ec;color:#8a2147}
-.dish{font-weight:600}
-.kcal{text-align:right;font-variant-numeric:tabular-nums;font-weight:500;white-space:nowrap}
-.kcal small{display:block;color:var(--muted);font-weight:400}
-ul.ing{list-style:none;margin:0;padding:0 .25rem 1rem 9.25rem;display:grid;gap:.2rem;color:var(--muted);font-size:.9rem}
-ul.ing li{display:flex;justify-content:space-between;gap:1rem;max-width:24rem}
-.total{display:flex;justify-content:space-between;margin-top:.5rem;padding:.9rem 1rem;background:var(--ink);color:#fff;border-radius:12px;font-weight:600}
-.plans{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:.75rem}
-.plans li{display:flex;gap:.4rem;align-items:stretch}
-.plans .open{flex:1;text-align:left;border:1.5px solid var(--line);background:var(--card);border-radius:16px;padding:1rem 1.1rem;color:var(--ink);font-weight:600}
-.plans .open small{display:block;color:var(--muted);font-weight:400}
-.plans .open[aria-current=true]{background:var(--lime);border-color:var(--lime)}
-.plans .del{width:2.5rem;border:1.5px solid var(--line);background:var(--card);border-radius:12px;color:var(--muted);font-size:1.2rem}
-.plans .del:hover{border-color:var(--radish);color:var(--radish)}
+.plan-shell{display:grid;gap:1rem}
+.plan-meta{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap}
+.plan-meta .meta-line{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.55rem}
+.chip{display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .7rem;border-radius:999px;background:var(--soft);color:var(--ink-2);font-size:.8rem;font-weight:700}
+.day-rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(6.4rem,1fr);gap:.5rem;overflow-x:auto;padding-bottom:.15rem;scrollbar-width:thin}
+.day-rail button{appearance:none;text-align:left;border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:.85rem .95rem;color:var(--ink);box-shadow:var(--shadow);transition:border-color .15s,background .15s,transform .15s;min-height:4.6rem}
+.day-rail button:hover{border-color:var(--ink);transform:translateY(-1px)}
+.day-rail .dn{display:block;font:700 .78rem var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem}
+.day-rail .dd{display:block;font:700 1.15rem var(--display);letter-spacing:-.03em}
+.day-rail .dk{display:block;margin-top:.35rem;font-size:.82rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.day-rail .bar{display:block;height:4px;margin-top:.55rem;border-radius:999px;background:var(--soft);overflow:hidden}
+.day-rail .bar>i{display:block;height:100%;width:0;background:var(--lime-deep);border-radius:inherit}
+.day-rail button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.day-rail button[aria-pressed=true] .dn,.day-rail button[aria-pressed=true] .dk{color:#b7cec2}
+.day-rail button[aria-pressed=true] .bar{background:#ffffff22}
+.day-rail button[aria-pressed=true] .bar>i{background:var(--lime)}
+.day-panel{display:grid;gap:.85rem}
+.day-panel-head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.day-panel-head h3{font-size:1.05rem}
+.day-stats{display:flex;flex-wrap:wrap;gap:.45rem}
+.meals-board{display:grid;gap:.65rem}
+.meal-card{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);overflow:hidden;border-left:5px solid var(--soft);display:grid;gap:0}
+.meal-card[data-t=BREAKFAST]{border-left-color:#b6d83a}
+.meal-card[data-t=LUNCH]{border-left-color:#3d8f78}
+.meal-card[data-t=DINNER]{border-left-color:#5b6fad}
+.meal-card[data-t=SNACK],.meal-card[data-t=SECOND_SNACK]{border-left-color:#d6455d}
+.meal-top{display:grid;grid-template-columns:auto 1fr auto;gap:.75rem 1rem;align-items:start;padding:1rem 1.15rem .55rem}
+.meal-actions{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;padding:0 1.15rem .95rem}
+.btn.sm{padding:.42rem .85rem;font-size:.84rem;border-radius:999px}
+.icon-btn{width:2.35rem;height:2.35rem;border:1.5px solid var(--line);border-radius:12px;background:#fff;display:grid;place-items:center;color:var(--muted);padding:0;font-size:1.05rem;line-height:1}
+.icon-btn:hover{border-color:var(--ink);color:var(--ink)}
+.icon-btn.on{background:#fde4ea;border-color:#f3b7c5;color:var(--radish)}
+.icon-btn[disabled]{opacity:.55;cursor:not-allowed}
+.btn[aria-busy=true]{opacity:.65;cursor:wait}
+.btn[disabled]{opacity:.65;cursor:not-allowed}
+.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.kind{font-size:.72rem;font-weight:700;padding:.28rem .65rem;border-radius:999px;background:var(--soft);color:var(--muted);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.kind[data-t=BREAKFAST]{background:#eaf8b8;color:#405210}
+.kind[data-t=LUNCH]{background:#d8ebe3;color:#1e4a3c}
+.kind[data-t=DINNER]{background:#e4e9f5;color:#2c3d6b}
+.kind[data-t=SNACK],.kind[data-t=SECOND_SNACK]{background:#fde4ea;color:#8a2147}
+.dish{font-weight:700;font-size:1.02rem}.dish small.with{display:block;font-weight:500;font-size:.84rem;color:var(--muted);margin-top:.2rem}
+.kcal{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.kcal small{display:block;color:var(--muted);font-weight:500;margin-top:.12rem}
+.meal-body{padding:0 1.15rem 1.1rem;display:grid;gap:.55rem}
+.meal-body>summary{list-style:none;cursor:pointer;color:var(--muted);font-weight:600;font-size:.88rem;display:inline-flex;align-items:center;gap:.4rem;width:max-content;padding:.15rem 0}
+.meal-body>summary::-webkit-details-marker{display:none}
+.meal-body>summary::after{content:"";width:.45rem;height:.45rem;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .2s}
+.meal-body[open]>summary::after{transform:rotate(-135deg)}
+ul.ing{list-style:none;margin:.35rem 0 0;padding:0;display:grid;gap:.3rem;color:var(--muted);font-size:.9rem;background:var(--wash);border-radius:14px;padding:.7rem .85rem}
+ul.ing li{display:flex;justify-content:space-between;gap:1rem}
+.who{font-size:.9rem;color:var(--muted)}
+.fav-list{list-style:none;margin:.85rem 0 0;padding:0;display:grid;gap:.45rem}
+.fav-list li{display:flex;justify-content:space-between;align-items:center;gap:.7rem;padding:.65rem 0;border-top:1px solid var(--line)}
+.fav-list li:first-child{border-top:0;padding-top:0}
+.fav-list strong{font-weight:700}
+.total{display:flex;justify-content:space-between;gap:1rem;padding:1rem 1.15rem;background:var(--ink);color:#fff;border-radius:16px;font-weight:700;align-items:center}
+.total small{display:block;color:#b7cec2;font-weight:500;margin-top:.2rem}
+.plans{list-style:none;margin:0;padding:0;display:grid;gap:.55rem}
+.plans>li.empty-row{padding:1.2rem 0;color:var(--muted);font-weight:500}
+.plans .plan-row{display:flex;gap:.75rem;align-items:center;padding:.85rem 1rem;border:1.5px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow);transition:border-color .15s,background .15s}
+.plans .plan-row:hover{border-color:#b7c9be}
+.plans .plan-row.is-today{border-color:#b6d83a;background:#f7fbe8}
+.plans .plan-main{flex:1;min-width:0;border:0;background:none;padding:0;text-align:left;color:inherit;font:inherit;cursor:pointer;display:grid;gap:.2rem}
+.plans .plan-main:hover .plan-title{color:var(--ink-2)}
+.plans .plan-title{display:flex;align-items:center;gap:.4rem;min-width:0;font-weight:700;font-size:1rem}
+.plans .plan-title>span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.plans .plan-meta{color:var(--muted);font-size:.84rem;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plans .plan-acts{display:flex;gap:.3rem;flex:none;position:relative;z-index:2}
+.plans .plan-acts .icon-btn{width:2.4rem;height:2.4rem;border-radius:12px;background:var(--wash);cursor:pointer}
+.plans .plan-acts .icon-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.plans .plan-acts .icon-btn.on{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.plans .plan-acts .icon-btn.danger:hover{border-color:var(--radish);color:var(--radish);background:#fde8ed}
+.plans .plan-acts .icon-btn:disabled{cursor:not-allowed}
 #basket{margin-top:1rem}
-#basket .cat{margin:1.1rem 0 .2rem;font:600 .9rem var(--body);color:var(--muted)}
-.item{display:flex;gap:.7rem;align-items:center;padding:.5rem .25rem;border-top:1px solid var(--line);cursor:pointer}
+#basket .cat{margin:1.15rem 0 .25rem;font:700 .88rem var(--body);color:var(--muted);letter-spacing:.02em;text-transform:uppercase}
+.item{display:flex;gap:.7rem;align-items:center;padding:.58rem .2rem;border-top:1px solid var(--line);cursor:pointer}
 .item input{width:1.15rem;height:1.15rem;accent-color:var(--ink);flex:none}
-.item .nm{flex:1}
-.item .g{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.item .nm{flex:1;font-weight:500}.item .g{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
 .item.done .nm{text-decoration:line-through;color:var(--muted)}
-.dish small.with{display:block;font-weight:400;font-size:.85rem;color:var(--muted)}
 .inline{display:flex;gap:.5rem;margin-top:.7rem}.inline input{flex:1;min-width:0}
-.members{list-style:none;margin:.7rem 0 0;padding:0;display:grid;gap:.3rem}
-.members li{display:flex;justify-content:space-between;align-items:center;gap:.5rem;border-top:1px solid var(--line);padding-top:.35rem}
-.members small{display:block}
-.fam{font:600 1.05rem var(--display);letter-spacing:-.02em}
+.members{list-style:none;margin:.7rem 0 0;padding:0;display:grid;gap:.35rem}
+.members li{display:flex;justify-content:space-between;align-items:center;gap:.5rem;border-top:1px solid var(--line);padding-top:.45rem}
+.members small{display:block}.fam{font:700 1.1rem var(--display);letter-spacing:-.02em}
 .x2{border:0;background:none;color:var(--muted);font-size:1.3rem;padding:.2rem .5rem}.x2:hover{color:var(--radish)}
-.seg input:disabled+span{opacity:.4;cursor:not-allowed}
-.who{padding:0 .25rem .7rem 9.25rem;font-size:.9rem}
-@media (max-width:860px){.who{padding-left:.25rem}}
 .xlist{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0 0;padding:0}
-.xchip{display:flex;align-items:center;gap:.2rem;padding:.3rem .35rem .3rem .85rem;border-radius:999px;background:#fde5ec;color:#8a2147;font-weight:500;font-size:.9rem}
+.xchip{display:flex;align-items:center;gap:.2rem;padding:.35rem .4rem .35rem .9rem;border-radius:999px;background:#fde5ec;color:#8a2147;font-weight:600;font-size:.9rem}
 .xchip button{border:0;background:none;color:inherit;font-size:1.15rem;line-height:1;padding:0 .35rem;border-radius:50%}
 .xchip button:hover{background:#f8c9d7}
+.cat-pick{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.cat-pick button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:.4rem .8rem;font-weight:600;font-size:.84rem;color:var(--muted)}
+.cat-pick button:hover{border-color:var(--ink);color:var(--ink)}
+.cat-pick button.on{background:#fde5ec;border-color:#f3b7c5;color:#8a2147}
 .actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
-#toast{position:fixed;left:50%;bottom:1.5rem;transform:translate(-50%,2rem);background:var(--ink);color:#fff;padding:.8rem 1.2rem;border-radius:12px;max-width:min(90vw,32rem);opacity:0;pointer-events:none;transition:.25s;z-index:9}
+#toast{position:fixed;left:50%;bottom:1.5rem;transform:translate(-50%,2rem);background:var(--ink);color:#fff;padding:.85rem 1.25rem;border-radius:14px;max-width:min(90vw,32rem);opacity:0;pointer-events:none;transition:.25s;z-index:9;font-weight:600}
 #toast.on{opacity:1;transform:translate(-50%,0)}
-@media (max-width:860px){
- .auth{grid-template-columns:1fr}.hero{gap:1.5rem}.sample{display:none}
- .layout{grid-template-columns:1fr}
- summary{grid-template-columns:1fr auto 1rem}.kind{grid-column:1/-1;margin-bottom:-.7rem}
- ul.ing{padding-left:.25rem}
+.modal-back{position:fixed;inset:0;z-index:20;background:rgba(15,30,25,.45);backdrop-filter:blur(4px);display:grid;place-items:end center;padding:0;animation:fadein .2s ease}
+.modal{width:min(100vw,36rem);max-height:min(92vh,40rem);background:var(--card);border-radius:24px 24px 0 0;box-shadow:0 -12px 48px -12px rgba(20,40,33,.45);display:grid;grid-template-rows:auto auto auto 1fr;overflow:hidden;animation:rise .28s ease}
+@media (min-width:640px){
+  .modal-back{place-items:center;padding:1.5rem}
+  .modal{border-radius:24px;max-height:min(86vh,42rem)}
+}
+.modal-head{display:flex;justify-content:space-between;align-items:start;gap:1rem;padding:1.2rem 1.25rem .5rem}
+.modal-head h2{font-size:1.15rem}
+.modal-head .x{border:0;background:var(--soft);width:2.2rem;height:2.2rem;border-radius:50%;font-size:1.2rem;color:var(--muted);flex:none}
+.modal-head .x:hover{background:var(--ink);color:var(--lime)}
+.modal-note{padding:0 1.25rem .75rem;color:var(--muted);font-size:.9rem}
+.modal-note .chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.45rem}
+.modal-search{padding:0 1.25rem .85rem}
+.modal-search input{width:100%}
+.alt-list{list-style:none;margin:0;padding:0 .7rem 1.2rem;overflow:auto;display:grid;gap:.45rem}
+.alt-list li{margin:0}
+.alt{width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:.85rem 1rem;display:grid;grid-template-columns:1fr auto;gap:.25rem .8rem;align-items:center;color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,transform .15s,background .15s}
+.alt:hover{border-color:var(--ink);transform:translateY(-1px)}
+.alt:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.alt .nm{font-weight:700;grid-column:1}.alt .meta{grid-column:1;color:var(--muted);font-size:.84rem;font-weight:500}
+.alt .cal{grid-row:1/3;grid-column:2;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.alt .cal small{display:block;color:var(--muted);font-weight:500;margin-top:.15rem}
+.alt.fav{border-color:#f3b7c5;background:#fff8fa}
+.alt .heart{color:var(--radish);font-weight:700}
+
+@media (max-width:980px){
+  .composer-grid{grid-template-columns:1fr 1fr}
 }
 @media (max-width:860px){
- .top{grid-template-columns:1fr auto}
- .nav{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--card);border-top:1px solid var(--line);padding:.35rem .5rem calc(.35rem + env(safe-area-inset-bottom));justify-content:space-around}
- .nav button{flex:1;flex-direction:column;gap:.1rem;font-size:.72rem;padding:.4rem .3rem;border-radius:12px}
- #who{display:none}.me{padding-right:.25rem}
- .wrap{padding-bottom:5.5rem}
- #view-plan aside{position:static}
+  .auth{grid-template-columns:1fr}
+  .hero{min-height:42vh;gap:1.6rem}
+  .hero::after,.hero-plate{display:none}
+  .composer-grid{grid-template-columns:1fr}
+  .meal-top{grid-template-columns:1fr auto;gap:.35rem .75rem}
+  .kind{grid-column:1/-1;justify-self:start}
+  .top{grid-template-columns:1fr auto}
+  .logo-text{max-width:11rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .nav{position:fixed;left:.6rem;right:.6rem;bottom:.6rem;z-index:6;width:auto;margin:0;justify-content:space-around;
+    background:rgba(255,253,248,.94);backdrop-filter:blur(12px);border:1px solid var(--line);box-shadow:var(--shadow);padding:.35rem}
+  .nav button{flex:1;flex-direction:column;gap:.12rem;font-size:.7rem;padding:.4rem .25rem;border-radius:14px}
+  #who{display:none}.me{padding-right:.3rem}
+  .wrap{padding-bottom:5.8rem}
+  .two{grid-template-columns:1fr}
+  .composer-actions{flex-direction:column;align-items:stretch}
+  .composer-actions .btn{width:100%;min-width:0}
+  .manual-setup .composer-grid{grid-template-columns:1fr}
+  .slot{grid-template-columns:1fr;gap:.45rem}
+  .slot .slot-actions{justify-content:stretch}
+  .slot .slot-actions .btn{flex:1}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -162,21 +321,23 @@ ul.ing li{display:flex;justify-content:space-between;gap:1rem;max-width:24rem}
 <body>
 
 <main id="auth" class="auth">
-  <section class="hero">
-    <div class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#d4f04f"/><path d="M9 22c0-8 4-13 14-13 0 9-5 13-14 13zM9 22l8-8" fill="none" stroke="#1d2145" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Продуктовый консультант</div>
-    <div>
-      <h1>Меню под ваши калории на любое число дней</h1>
-      <p class="lead">Укажите рост, вес и привычную активность. Мы подберём блюда на каждый приём пищи и посчитаем калории.</p>
+  <section class="hero" aria-label="О продукте">
+    <div class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18c0-7 4-12 14-12 0 8-5 12-14 12zM5 18l8-8" fill="none" stroke="#142821" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Рацион</div>
+    <div class="hero-copy">
+      <h1>Меню под ваши калории</h1>
+      <p class="lead">Соберём рацион на нужное число дней: блюда, порции и список покупок.</p>
     </div>
-    <div class="sample" aria-hidden="true">
-      <h3>Пример: день 1</h3>
-      <div class="row"><span>Овсянка с бананом</span><span>570 ккал</span></div>
-      <div class="row"><span>Курица с рисом</span><span>785 ккал</span></div>
-      <div class="row"><span>Лосось с картофелем</span><span>686 ккал</span></div>
+    <div class="hero-plate" aria-hidden="true">
+      <div class="pl">Пример дня из каталога</div>
+      <div class="line"><span>Овсяная каша на молоке с бананом</span><span>460 ккал</span></div>
+      <div class="line"><span>Борщ с говядиной и сметаной</span><span>571 ккал</span></div>
+      <div class="line"><span>Запечённый лосось с киноа</span><span>586 ккал</span></div>
     </div>
   </section>
 
-  <section class="panel"><div>
+  <section class="panel"><div class="panel-box">
+    <h2>Начните здесь</h2>
+    <p class="muted small">Создайте аккаунт или войдите — план сохранится в профиле.</p>
     <div class="tabs" role="tablist">
       <button type="button" role="tab" id="tab-reg" aria-selected="true">Регистрация</button>
       <button type="button" role="tab" id="tab-login" aria-selected="false">Вход</button>
@@ -188,6 +349,10 @@ ul.ing li{display:flex;justify-content:space-between;gap:1rem;max-width:24rem}
         <label class="f">Фамилия<input type="text" name="lastName" autocomplete="family-name" maxlength="100" required></label>
       </div>
       <label class="f">Email<input type="email" name="email" autocomplete="email" maxlength="255" required></label>
+      <div class="two">
+        <label class="f">Пароль<input type="password" name="password" autocomplete="new-password" minlength="6" maxlength="100" required></label>
+        <label class="f">Ещё раз<input type="password" name="password2" autocomplete="new-password" minlength="6" maxlength="100" required></label>
+      </div>
       <div class="two">
         <label class="f">Рост, см<input type="number" name="height" min="100" max="250" step="0.1" required></label>
         <label class="f">Вес, кг<input type="number" name="weight" min="30" max="300" step="0.1" required></label>
@@ -201,38 +366,42 @@ ul.ing li{display:flex;justify-content:space-between;gap:1rem;max-width:24rem}
       </fieldset>
       <label class="f">Активность
         <select name="activityLevel">
-          <option value="LOW">Низкая: тренировки 1–3 раза в неделю</option>
+          <option value="LOW">Низкая: 1–3 тренировки в неделю</option>
           <option value="MODERATE" selected>Средняя: 3–5 раз в неделю</option>
           <option value="HIGH">Высокая: 6–7 раз в неделю</option>
-          <option value="VERY_HIGH">Очень высокая: тяжёлый труд или две тренировки в день</option>
+          <option value="VERY_HIGH">Очень высокая: тяжёлый труд / 2 тренировки</option>
         </select>
       </label>
       <fieldset><legend>Цель</legend>
         <div class="seg">
           <label><input type="radio" name="goal" value="WEIGHT_LOSS"><span>Похудеть</span></label>
-          <label><input type="radio" name="goal" value="MAINTENANCE" checked><span>Держать вес</span></label>
+          <label><input type="radio" name="goal" value="MAINTENANCE" checked><span>Держать</span></label>
           <label><input type="radio" name="goal" value="WEIGHT_GAIN"><span>Набрать</span></label>
         </div>
       </fieldset>
+      <p class="muted small">Пароль от 6 символов. После регистрации вы сразу войдёте.</p>
       <p class="err" role="alert"></p>
-      <button class="btn" type="submit">Создать профиль</button>
+      <button class="btn lime" type="submit">Создать аккаунт</button>
     </form>
 
     <form id="login" class="stack" hidden novalidate>
-      <label class="f">Email<input type="email" name="email" autocomplete="email" maxlength="255" required></label>
-      <p class="muted small">Пароля пока нет: профиль открывается по email, указанному при регистрации.</p>
+      <label class="f">Email<input type="email" name="email" autocomplete="username" maxlength="255" required></label>
+      <label class="f">Пароль<input type="password" name="password" autocomplete="current-password" minlength="6" maxlength="100" required></label>
       <p class="err" role="alert"></p>
-      <button class="btn" type="submit">Войти</button>
+      <button class="btn lime" type="submit">Войти</button>
     </form>
   </div></section>
 </main>
 
 <div id="app" hidden>
   <header class="top">
-    <div class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#d4f04f"/><path d="M9 22c0-8 4-13 14-13 0 9-5 13-14 13zM9 22l8-8" fill="none" stroke="#1d2145" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Продуктовый консультант</div>
+    <div class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18c0-7 4-12 14-12 0 8-5 12-14 12zM5 18l8-8" fill="none" stroke="#142821" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="logo-text">Рацион</span></div>
     <nav class="nav" aria-label="Разделы">
-      <button type="button" data-view="plan" aria-current="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM5 9h14M9 2v4M15 2v4"/></svg><span>План</span></button>
-      <button type="button" data-view="plans" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg><span>Мои планы</span></button>
+      <button type="button" data-view="today" aria-current="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 1.5"/></svg><span>Сегодня</span></button>
+      <button type="button" data-view="plan" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM5 9h14M9 2v4M15 2v4"/></svg><span>Генерация</span></button>
+      <button type="button" data-view="manual" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Вручную</span></button>
+      <button type="button" data-view="current" id="navCurrent" aria-current="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h14"/></svg><span>Просмотр</span></button>
+      <button type="button" data-view="plans" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg><span>Планы</span></button>
       <button type="button" data-view="family" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 14.5c3 0 6 1.7 6 5"/></svg><span>Семья</span></button>
       <button type="button" data-view="profile" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span>Профиль</span></button>
     </nav>
@@ -240,41 +409,125 @@ ul.ing li{display:flex;justify-content:space-between;gap:1rem;max-width:24rem}
   </header>
 
   <main class="wrap">
-    <section id="view-plan" class="layout">
-      <aside>
-        <section class="card">
-          <h2>Новый план</h2>
-          <form id="gen" class="stack" style="margin-top:1rem" novalidate>
-            <fieldset><legend>Для кого</legend>
+    <section id="view-today">
+      <div id="todayBody"></div>
+    </section>
+
+    <section id="view-plan" class="layout" hidden>
+      <section class="card composer">
+          <div class="composer-top">
+          <div>
+            <h2>Автогенерация</h2>
+            <p>Выберите срок, число приёмов и как часто готовить — блюда подберём под калории.</p>
+          </div>
+        </div>
+        <form id="gen" novalidate>
+          <div class="composer-grid">
+            <fieldset>
+              <legend>Для кого</legend>
               <div class="seg">
-                <label><input type="radio" name="who" value="me" checked><span>Для меня</span></label>
-                <label><input type="radio" name="who" value="family"><span>Для семьи</span></label>
+                <label><input type="radio" name="who" value="me" checked><span>Себе</span></label>
+                <label><input type="radio" name="who" value="family"><span>Семье</span></label>
               </div>
             </fieldset>
-            <fieldset><legend>Сколько дней</legend>
-              <div class="step"><button type="button" id="dec" aria-label="Меньше дней">−</button><output id="days" aria-live="polite">3</output><button type="button" id="inc" aria-label="Больше дней">+</button></div>
+            <fieldset>
+              <legend>На сколько дней</legend>
+              <div class="day-pick" id="dayPick" role="group" aria-label="Число дней"></div>
+              <output id="days" class="visually-hidden" aria-live="polite">3</output>
             </fieldset>
-            <fieldset><legend>Приёмов пищи в день</legend>
+            <fieldset>
+              <legend>Приёмов в день</legend>
               <div class="seg">
                 <label><input type="radio" name="meals" value="3"><span>3</span></label>
                 <label><input type="radio" name="meals" value="4" checked><span>4</span></label>
                 <label><input type="radio" name="meals" value="5"><span>5</span></label>
               </div>
+              <p class="muted field-note" id="mealsHint">Завтрак, обед, ужин и перекус</p>
             </fieldset>
-            <label class="f">Готовок в день
-              <select id="cooks" name="cooks"></select>
-            </label>
-            <p id="cookHint" class="muted small" style="margin-top:-.4rem"></p>
+            <fieldset>
+              <legend>Готовок в день</legend>
+              <div class="cook-seg" id="cookSeg" role="group" aria-label="Число готовок"></div>
+              <select id="cooks" name="cooks" tabindex="-1" aria-hidden="true"></select>
+              <p id="cookHint" class="muted field-note"></p>
+            </fieldset>
+          </div>
+          <label class="f" style="margin-top:1rem">Название плана
+            <input type="text" name="planName" id="genPlanName" maxlength="100" placeholder="Например, Неделя без мяса" autocomplete="off">
+          </label>
+          <div class="composer-actions" style="margin-top:1.1rem">
             <p class="err" role="alert"></p>
-            <button class="btn" type="submit">Составить план</button>
-          </form>
-        </section>
-      </aside>
+            <button class="btn lime" type="submit">Сгенерировать</button>
+          </div>
+        </form>
+        <p class="muted small" style="margin-top:1rem">Готовый план сразу станет текущим на вкладке «Сегодня».</p>
+      </section>
+    </section>
+
+    <section id="view-current" hidden>
       <section id="result" aria-live="polite"></section>
     </section>
 
+    <section id="view-manual" hidden>
+      <section class="card composer manual-setup">
+        <div class="composer-top">
+          <div>
+            <h2>Собрать меню вручную</h2>
+            <p>Задайте структуру дней, затем выберите блюдо для каждого приёма — порции посчитаем сами.</p>
+          </div>
+        </div>
+        <div class="composer-grid">
+          <fieldset>
+            <legend>Для кого</legend>
+            <div class="seg">
+              <label><input type="radio" name="manualWho" value="me" checked><span>Себе</span></label>
+              <label><input type="radio" name="manualWho" value="family"><span>Семье</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>На сколько дней</legend>
+            <div class="day-pick" id="manualDayPick" role="group" aria-label="Число дней"></div>
+          </fieldset>
+          <fieldset>
+            <legend>Приёмов в день</legend>
+            <div class="seg">
+              <label><input type="radio" name="manualMeals" value="3"><span>3</span></label>
+              <label><input type="radio" name="manualMeals" value="4" checked><span>4</span></label>
+              <label><input type="radio" name="manualMeals" value="5"><span>5</span></label>
+            </div>
+            <p class="muted field-note" id="manualMealsHint">Завтрак, обед, ужин и перекус</p>
+          </fieldset>
+          <div>
+            <button type="button" class="btn ghost" id="manualReset" style="width:100%">Сбросить блюда</button>
+          </div>
+        </div>
+        <label class="f" style="margin-top:1rem">Название плана
+          <input type="text" id="manualPlanName" maxlength="100" placeholder="Например, Ручной рацион на 5 дней" autocomplete="off">
+        </label>
+      </section>
+
+      <section class="manual-board card">
+        <div class="day-panel-head">
+          <h3 id="manualDayTitle">День 1</h3>
+          <div class="day-stats"><span class="chip" id="manualFilled">0 / 0 заполнено</span></div>
+        </div>
+        <div class="day-rail" id="manualDayRail" role="tablist" aria-label="Дни ручного плана"></div>
+        <div class="slot-grid" id="manualSlots"></div>
+        <div class="manual-foot">
+          <p class="stat" id="manualStat">Выберите блюда для всех приёмов</p>
+          <button type="button" class="btn lime" id="manualSave" disabled>Сохранить план</button>
+        </div>
+        <p class="err" id="manualErr" role="alert"></p>
+      </section>
+    </section>
+
     <section id="view-plans" hidden>
-      <div class="page-head"><h2>Мои планы</h2><p class="muted small">Откройте сохранённый план, чтобы посмотреть блюда и корзину продуктов.</p></div>
+      <div class="page-head">
+        <div>
+          <h2>Мои планы</h2>
+          <p class="muted small">Нажмите на название, чтобы открыть. Иконки — текущий, переименовать, удалить.</p>
+        </div>
+        <button type="button" class="btn ghost" id="plansClear" hidden>Удалить все</button>
+      </div>
       <ul id="plans" class="plans"></ul>
     </section>
 
@@ -293,9 +546,17 @@ ul.ing li{display:flex;justify-content:space-between;gap:1rem;max-width:24rem}
       </div>
       <div class="stats" id="profile"></div>
       <div id="profileEdit"></div>
+      <div class="card" id="favs">
+        <h2>Избранные блюда</h2>
+        <p class="muted small" style="margin-top:.4rem">Их сервис чаще подставляет в меню и при замене блюда.</p>
+        <ul class="fav-list" id="favList"></ul>
+      </div>
       <div class="card" id="excl">
-        <h2>Исключённые продукты</h2>
-        <p class="muted small" style="margin-top:.4rem">Блюда с этими продуктами не попадут в план. В плане на семью учитываются исключения всех участников.</p>
+        <h2>Исключения из рациона</h2>
+        <p class="muted small" style="margin-top:.4rem">Можно убрать целую группу (мясо, рыба…) или отдельные продукты. Блюда с ними не попадут в план; для семьи учитываются исключения всех.</p>
+        <h3 style="margin-top:1rem;font-size:.95rem">Типы продуктов</h3>
+        <div class="cat-pick" id="exclCats" role="group" aria-label="Исключённые типы продуктов"></div>
+        <h3 style="margin-top:1.15rem;font-size:.95rem">Отдельные продукты</h3>
         <div class="inline">
           <input type="text" id="exclInput" list="prods" placeholder="Начните вводить продукт" autocomplete="off" aria-label="Продукт для исключения">
           <button type="button" class="btn ghost" id="exclAdd">Добавить</button>
@@ -308,7 +569,38 @@ ul.ing li{display:flex;justify-content:space-between;gap:1rem;max-width:24rem}
 </div>
 <datalist id="prods"></datalist>
 <div id="toast" role="status" aria-live="polite"></div>
-
+<div id="replaceModal" class="modal-back" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="replaceTitle">
+    <div class="modal-head">
+      <div>
+        <h2 id="replaceTitle">Заменить блюдо</h2>
+        <p class="muted small" id="replaceSub" style="margin-top:.3rem"></p>
+      </div>
+      <button type="button" class="x" id="replaceClose" aria-label="Закрыть">×</button>
+    </div>
+    <div class="modal-note" id="replaceNote"></div>
+    <div class="modal-search">
+      <input type="search" id="replaceQ" placeholder="Поиск по названию" autocomplete="off" aria-label="Поиск блюда">
+    </div>
+    <ul class="alt-list" id="replaceList"></ul>
+  </div>
+</div>
+<div id="dishPickModal" class="modal-back" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dishPickTitle">
+    <div class="modal-head">
+      <div>
+        <h2 id="dishPickTitle">Выбрать блюдо</h2>
+        <p class="muted small" id="dishPickSub" style="margin-top:.3rem"></p>
+      </div>
+      <button type="button" class="x" id="dishPickClose" aria-label="Закрыть">×</button>
+    </div>
+    <div class="modal-note" id="dishPickNote"></div>
+    <div class="modal-search">
+      <input type="search" id="dishPickQ" placeholder="Поиск по названию" autocomplete="off" aria-label="Поиск блюда">
+    </div>
+    <ul class="alt-list" id="dishPickList"></ul>
+  </div>
+</div>
 <script>
 const API = location.protocol === 'file:' ? 'http://localhost:8080' : ''; // страницу лучше отдавать самим приложением
 const $ = s => document.querySelector(s);
@@ -318,19 +610,22 @@ const ORDER = ['BREAKFAST', 'SNACK', 'LUNCH', 'DINNER', 'SECOND_SNACK'];
 const MEAL = {BREAKFAST: 'Завтрак', SNACK: 'Перекус', LUNCH: 'Обед', DINNER: 'Ужин', SECOND_SNACK: 'Поздний перекус'};
 const GOAL = {WEIGHT_LOSS: 'Похудеть', MAINTENANCE: 'Держать вес', WEIGHT_GAIN: 'Набрать'};
 const ACT = {LOW: 'Низкая', MODERATE: 'Средняя', HIGH: 'Высокая', VERY_HIGH: 'Очень высокая'};
-const state = {profile: null, plan: null, basket: null, family: null, excluded: [], dishes: new Map(), day: 1, days: 3};
-const store = {
-  get: k => { try { return localStorage.getItem(k); } catch { return null; } },
-  set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
-  del: k => { try { localStorage.removeItem(k); } catch {} }
-};
+const state = {profile: null, plan: null, todayPlanId: null, basket: null, family: null, excluded: [], excludedCategories: [], favorites: [], dishes: new Map(), day: 1, days: 3};
+const CAT_OPTS = ['MEAT','FISH','SEAFOOD','DAIRY','EGGS','GRAINS','PASTA','BREAD','VEGETABLES','FRUITS','BERRIES','NUTS','LEGUMES','OIL','SAUCES','SWEETS','BEVERAGES','OTHER'];
+const isFav = dishId => state.favorites.some(f => f.dishId === dishId);
 
 function h(tag, props, ...kids) {
   const e = document.createElement(tag);
   for (const [k, v] of Object.entries(props || {})) {
     if (k === 'class') e.className = v;
-    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
-    else e.setAttribute(k, v);
+    else if (k.startsWith('on') && typeof v === 'function') e.addEventListener(k.slice(2), v);
+    else if (k === 'disabled' || k === 'checked' || k === 'selected' || k === 'hidden' || k === 'readonly') {
+      if (v) e.setAttribute(k, '');
+      else e.removeAttribute(k);
+      if (k in e) e[k] = !!v;
+    } else if (k === 'aria-pressed' || k === 'aria-current' || k === 'aria-selected' || k === 'aria-hidden') {
+      e.setAttribute(k, v ? 'true' : 'false');
+    } else if (v != null && v !== false) e.setAttribute(k, v);
   }
   e.append(...kids.flat().filter(x => x != null));
   return e;
@@ -342,25 +637,45 @@ function explain(status, d) {
   if (m) return `В каталоге нет блюд для приёма «${MEAL[m[1]] || m[1]}». Добавьте такие блюда и повторите.`;
   const nm = /No dishes suitable for all meal types \[(.+)\]/.exec(detail);
   if (nm) return `Нет блюд, подходящих сразу для приёмов: ${nm[1].split(',').map(s => MEAL[s.trim()] || s.trim()).join(', ')}. Уменьшите число готовок, проверьте исключённые продукты в профиле или добавьте блюдам смежные типы.`;
-  if (status === 400 && /готовок|семь|заполнен/.test(detail)) return detail;
+  if (status === 401) return /парол|email|вход/i.test(detail) ? (detail || 'Неверный email или пароль') : 'Сессия истекла. Войдите снова.';
+  if (status === 403) return 'Недостаточно прав для этого действия.';
+  if (status === 400 && /готовок|семь|заполнен|password/i.test(detail)) return detail;
   if (status === 400) return 'Проверьте введённые данные: все поля должны быть заполнены корректно.';
   if (status === 404) return 'Не найдено.';
-  if (status === 409) return /email/i.test(detail) ? 'Этот email уже зарегистрирован. Перейдите на вкладку «Вход».' : 'Запись не сохранена: база данных отклонила данные.';
-  if (status >= 500) return 'Ошибка на сервере. Подробности смотрите в логе приложения.';
+  if (status === 409) return /email/i.test(detail) ? 'Этот email уже зарегистрирован. Перейдите на вкладку «Вход».'
+    : /избранн/i.test(detail) ? 'Блюдо уже в избранном.'
+    : /meal_portion|uq_meal/i.test(detail) ? 'Не удалось обновить порции. Обновите страницу и попробуйте снова.'
+    : (detail && detail !== 'Operation conflicts with existing data: the record is in use or already exists'
+      ? detail
+      : 'Запись не сохранена: база данных отклонила данные.');
+  if (status === 422) return detail || 'Не удалось подобрать другое блюдо для замены.';
+  if (status >= 500) return detail || 'Ошибка на сервере. Подробности смотрите в логе приложения.';
   return detail || 'Не удалось выполнить запрос.';
+}
+
+function forceLogout() {
+  state.profile = null; state.plan = null; state.basket = null; state.family = null;
+  $('#app').hidden = true; $('#auth').hidden = false; tab(false);
 }
 
 async function api(path, opts = {}) {
   let res;
   try {
-    res = await fetch(API + path, {...opts, headers: {Accept: 'application/json', ...(opts.body ? {'Content-Type': 'application/json'} : {})}});
+    res = await fetch(API + path, {
+      ...opts,
+      credentials: 'same-origin',
+      headers: {Accept: 'application/json', ...(opts.body ? {'Content-Type': 'application/json'} : {}), ...(opts.headers || {})}
+    });
   } catch {
     throw new Error('Сервер не отвечает. Запустите приложение и откройте страницу по адресу http://localhost:8080');
   }
   const text = await res.text();
   let data = null;
   try { data = text ? JSON.parse(text) : null; } catch {}
-  if (!res.ok) { const e = new Error(explain(res.status, data)); e.status = res.status; throw e; }
+  if (!res.ok) {
+    if (res.status === 401 && !path.startsWith('/api/auth/')) forceLogout();
+    const e = new Error(explain(res.status, data)); e.status = res.status; throw e;
+  }
   return data;
 }
 
@@ -388,11 +703,163 @@ $('#tab-reg').onclick = () => tab(true);
 $('#tab-login').onclick = () => tab(false);
 
 /* разделы */
+function syncCurrentNav() {
+  const btn = $('#navCurrent');
+  if (btn) btn.hidden = !state.plan;
+}
+
+const fmtDate = iso => {
+  try { return new Date(iso + 'T00:00:00').toLocaleDateString('ru-RU', {weekday: 'long', day: 'numeric', month: 'long'}); }
+  catch { return iso; }
+};
+
+function planDisplayName(p) {
+  const n = (p && p.name ? String(p.name) : '').trim();
+  return n || 'Меню';
+}
+
+function planPickLabel(p) {
+  const start = p.startDate ? new Date(p.startDate + 'T00:00:00').toLocaleDateString('ru-RU') : null;
+  return planDisplayName(p) +
+    ` · ${p.days} ${plural(p.days, 'день', 'дня', 'дней')}` +
+    (start ? ` · с ${start}` : '') +
+    (p.active ? ' · текущий' : '');
+}
+
+function todayPlanPicker(plans, selectedId) {
+  if (!plans.length) return null;
+  const sel = h('select', {'aria-label': 'План на сегодня'});
+  for (const p of plans) {
+    const opt = h('option', {value: String(p.id)}, planPickLabel(p));
+    if (selectedId != null && Number(p.id) === Number(selectedId)) opt.selected = true;
+    sel.appendChild(opt);
+  }
+  if (selectedId == null) {
+    const blank = h('option', {value: '', selected: true}, 'Выберите план…');
+    sel.insertBefore(blank, sel.firstChild);
+  }
+  sel.onchange = async () => {
+    const id = Number(sel.value);
+    if (!id) return;
+    try {
+      await activatePlan(id, {silent: true});
+    } catch (e) { toast(e.message); loadToday(); }
+  };
+  return h('div', {class: 'today-pick'},
+    h('label', {}, 'Какой план на сегодня'),
+    sel,
+    h('p', {class: 'muted small'}, 'Смена плана обновит меню дня. Отметки «съел / пропуск» хранятся отдельно у каждого плана.'));
+}
+
+async function loadToday() {
+  const box = $('#todayBody');
+  if (!box) return;
+  box.replaceChildren(h('p', {class: 'muted'}, 'Загрузка…'));
+  try {
+    const [t, plans] = await Promise.all([
+      api('/api/today'),
+      api('/api/meal-plans').catch(() => [])
+    ]);
+    renderToday(t, plans);
+  } catch (e) {
+    state.todayPlanId = null;
+    box.replaceChildren(h('div', {class: 'empty'}, h('h2', {}, 'Не удалось загрузить'), h('p', {}, e.message)));
+  }
+}
+
+function renderToday(t, plans = []) {
+  const box = $('#todayBody');
+  state.todayPlanId = t.planId || null;
+  const picker = todayPlanPicker(plans, t.planId);
+
+  if (!t.planId || t.dayNumber == null) {
+    const emptyActions = h('div', {class: 'actions', style: 'justify-content:center;margin-top:1.1rem'},
+      h('button', {type: 'button', class: 'btn lime', onclick: () => showView('plan')}, 'Сгенерировать'),
+      h('button', {type: 'button', class: 'btn ghost', onclick: () => showView('manual')}, 'Вручную'),
+      plans.length ? null : h('button', {type: 'button', class: 'btn ghost', onclick: () => showView('plans')}, 'Мои планы'));
+    box.replaceChildren(...[
+      h('div', {class: 'today-hero'},
+        h('div', {class: 'date'}, fmtDate(t.date)),
+        h('h2', {}, 'Сегодня')),
+      picker,
+      h('div', {class: 'empty'},
+        h('h2', {}, 'Нет меню на сегодня'),
+        h('p', {}, t.message || (picker ? 'Выберите план выше или создайте новый.' : 'Создайте или активируйте план.')),
+        emptyActions)
+    ].filter(Boolean));
+    return;
+  }
+
+  const pct = t.targetCalories > 0 ? Math.min(100, Math.round(t.eatenCalories / t.targetCalories * 100)) : 0;
+  const meals = (t.meals || []).map(m => {
+    const st = m.status;
+    const eat = h('button', {type: 'button', class: 'btn sm' + (st === 'EATEN' ? ' lime' : ' ghost')},
+      st === 'EATEN' ? 'Съедено' : 'Съел');
+    const skip = h('button', {type: 'button', class: 'btn ghost sm'},
+      st === 'SKIPPED' ? 'Пропущено' : 'Пропуск');
+    eat.onclick = () => setTodayLog(t.planId, m.mealId, st === 'EATEN' ? null : 'EATEN');
+    skip.onclick = () => setTodayLog(t.planId, m.mealId, st === 'SKIPPED' ? null : 'SKIPPED');
+    return h('article', {class: 'today-meal' + (st === 'EATEN' ? ' eaten' : '') + (st === 'SKIPPED' ? ' skipped' : '')},
+      h('div', {class: 'nm'}, MEAL[m.mealType] || m.mealType,
+        h('small', {}, m.dishName + ` · ${fmt.format(m.calories)} ккал`)),
+      h('div', {class: 'acts'}, eat, skip));
+  });
+
+  box.replaceChildren(...[
+    h('div', {class: 'today-hero'},
+      h('div', {class: 'date'}, fmtDate(t.date)),
+      h('h2', {}, 'Сегодня'),
+      h('p', {class: 'muted small'},
+        (t.planName ? `${t.planName} · ` : '') +
+        `день ${t.dayNumber} из ${t.planDays}` +
+        (t.planStartDate ? ` · с ${fmtDate(t.planStartDate)}` : '') +
+        (t.active ? ' · текущий' : ''))),
+    picker,
+    h('div', {class: 'today-progress'},
+      h('div', {class: 'row'},
+        h('span', {}, 'Съедено'),
+        h('strong', {}, `${fmt.format(t.eatenCalories)} / ${fmt.format(t.targetCalories || t.plannedCalories)} ккал`)),
+      h('div', {class: 'bar', 'aria-hidden': 'true'}, h('i', {style: `width:${pct}%`})),
+      h('p', {class: 'hint'}, `В плане на день ≈ ${fmt.format(t.plannedCalories)} ккал` +
+        (t.targetCalories ? ` · норма ${fmt.format(t.targetCalories)}` : ''))),
+    h('div', {class: 'today-meals'}, ...meals),
+    h('div', {class: 'actions'},
+      h('button', {type: 'button', class: 'btn ghost', onclick: () => openPlan(t.planId)}, 'Весь план'),
+      h('button', {type: 'button', class: 'btn ghost', onclick: () => showView('plans')}, 'К списку'))
+  ].filter(Boolean));
+}
+
+async function setTodayLog(planId, mealId, status) {
+  try {
+    const t = await api(`/api/today/plans/${planId}/meals/${mealId}`, {
+      method: 'PUT',
+      body: JSON.stringify({status})
+    });
+    const plans = await api('/api/meal-plans').catch(() => []);
+    renderToday(t, plans);
+  } catch (e) { toast(e.message); }
+}
+
 function showView(name) {
-  for (const v of ['plan', 'plans', 'family', 'profile']) $('#view-' + v).hidden = v !== name;
+  if (name === 'current' && !state.plan) {
+    toast('Сначала откройте или создайте план.');
+    name = 'plans';
+  }
+  for (const v of ['today', 'plan', 'manual', 'current', 'plans', 'family', 'profile']) {
+    const el = $('#view-' + v);
+    if (el) el.hidden = v !== name;
+  }
   document.querySelectorAll('.nav button').forEach(b => b.setAttribute('aria-current', b.dataset.view === name));
   const el = $('#view-' + name);
-  el.classList.remove('view-in'); void el.offsetWidth; el.classList.add('view-in');
+  if (el) {
+    el.classList.remove('view-in'); void el.offsetWidth; el.classList.add('view-in');
+  }
+  if (name === 'manual') renderManual();
+  if (name === 'current') renderResult();
+  if (name === 'today') loadToday();
+  if (name === 'plans') {
+    api('/api/today').then(t => { state.todayPlanId = t.planId || null; }).catch(() => {}).finally(loadPlans);
+  }
   window.scrollTo({top: 0});
 }
 document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
@@ -410,17 +877,188 @@ async function searchProducts(q) {
 }
 
 async function loadExcluded() {
-  try { state.excluded = await api(`/api/profiles/${state.profile.id}/excluded-products`); }
-  catch (e) { state.excluded = []; toast(e.message); }
+  try {
+    const [products, categories] = await Promise.all([
+      api(`/api/profiles/${state.profile.id}/excluded-products`),
+      api(`/api/profiles/${state.profile.id}/excluded-categories`)
+    ]);
+    state.excluded = products;
+    state.excludedCategories = (categories || []).map(c => c.category);
+  } catch (e) {
+    state.excluded = [];
+    state.excludedCategories = [];
+    toast(e.message);
+  }
   renderExcluded();
 }
 
+async function loadFavorites() {
+  try { state.favorites = await api(`/api/profiles/${state.profile.id}/favorites`); }
+  catch (e) { state.favorites = []; toast(e.message); }
+  renderFavorites();
+  if (state.plan) renderResult();
+}
+
+function renderFavorites() {
+  const ul = $('#favList');
+  if (!ul) return;
+  ul.replaceChildren(...(state.favorites.length
+    ? state.favorites.map(f => h('li', {},
+        h('div', {}, h('strong', {}, f.name),
+          f.cookingTime ? h('small', {class: 'muted'}, ` · ${f.cookingTime} мин`) : null),
+        h('button', {type: 'button', class: 'x2', 'aria-label': 'Убрать из избранного',
+          onclick: () => toggleFavorite(f.dishId, true)}, '×')))
+    : [h('li', {class: 'muted small'}, 'Пока пусто — отметьте блюда сердечком в плане.')]));
+}
+
+async function toggleFavorite(dishId, fromProfile = false) {
+  const liked = isFav(dishId);
+  try {
+    if (liked) {
+      await api(`/api/profiles/${state.profile.id}/favorites/${dishId}`, {method: 'DELETE'});
+      state.favorites = state.favorites.filter(f => f.dishId !== dishId);
+      if (!fromProfile) toast('Убрано из избранного.');
+    } else {
+      state.favorites = await api(`/api/profiles/${state.profile.id}/favorites`,
+        {method: 'POST', body: JSON.stringify({dishId})});
+      toast('В избранном — будем предлагать чаще.');
+    }
+    renderFavorites();
+    if (state.plan) renderResult();
+  } catch (e) { toast(e.message); }
+}
+
+let replaceState = {mealId: null, alts: [], scope: 'MEAL', affected: []};
+
+function closeReplaceModal() {
+  const box = $('#replaceModal');
+  box.hidden = true;
+  replaceState = {mealId: null, alts: [], scope: 'MEAL', affected: []};
+  $('#replaceQ').value = '';
+  $('#replaceList').replaceChildren();
+}
+
+function renderReplaceList(filter = '') {
+  const q = filter.trim().toLowerCase();
+  const list = replaceState.alts.filter(a => !q || a.name.toLowerCase().includes(q));
+  const ul = $('#replaceList');
+  if (!list.length) {
+    ul.replaceChildren(h('li', {class: 'muted small', style: 'padding:1rem'},
+      q ? 'Ничего не найдено по запросу.' : 'Подходящих блюд нет. Проверьте исключения продуктов.'));
+    return;
+  }
+  ul.replaceChildren(...list.map(a => {
+    const btn = h('button', {type: 'button', class: 'alt' + (a.favorite ? ' fav' : '')},
+      h('span', {class: 'nm'}, a.favorite ? h('span', {class: 'heart'}, '♥ ') : null, a.name),
+      h('span', {class: 'meta'},
+        a.cookingTime ? `${a.cookingTime} мин · ` : '',
+        `порция ≈ ×${fmt1.format(a.portionEstimate)}`),
+      h('span', {class: 'cal'}, `${fmt.format(a.calories)} ккал`,
+        h('small', {}, 'на 1 порцию')));
+    btn.onclick = () => confirmReplace(a.dishId, btn);
+    return h('li', {}, btn);
+  }));
+}
+
+async function openReplaceModal(mealId, btn) {
+  if (!state.plan || mealId == null) {
+    toast('Не удалось определить приём пищи. Откройте план заново.');
+    return;
+  }
+  if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
+  try {
+    const data = await api(`/api/meal-plans/${state.plan.id}/meals/${mealId}/alternatives`);
+    replaceState = {
+      mealId,
+      alts: data.alternatives || [],
+      scope: data.scope || 'MEAL',
+      affected: data.affectedMealTypes || []
+    };
+    $('#replaceSub').textContent = `Сейчас: ${data.currentDishName}`;
+    const note = $('#replaceNote');
+    const labels = replaceState.affected.map(t => MEAL[t] || t);
+    if (replaceState.scope === 'COOKING' && labels.length > 1) {
+      note.replaceChildren(
+        h('p', {}, 'Это одна готовка — блюдо стоит сразу на нескольких приёмах. Замена применится ко всем:'),
+        h('div', {class: 'chips'}, ...labels.map(l => h('span', {class: 'chip'}, l))));
+    } else if (labels.length > 1 && replaceState.scope === 'MEAL') {
+      note.replaceChildren(
+        h('p', {}, 'Общего блюда на всю готовку в каталоге нет. Замена только для выбранного приёма — общая готовка разделится.'));
+    } else {
+      note.replaceChildren(h('p', {}, 'Выберите другое блюдо из подходящих по калориям и типу приёма.'));
+    }
+    $('#replaceQ').value = '';
+    renderReplaceList();
+    $('#replaceModal').hidden = false;
+    $('#replaceQ').focus();
+  } catch (e) {
+    toast(e.message || 'Не удалось загрузить варианты замены');
+  } finally {
+    if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
+  }
+}
+
+async function confirmReplace(dishId, btn) {
+  if (!state.plan || replaceState.mealId == null) return;
+  const mealId = replaceState.mealId;
+  const shared = replaceState.scope === 'COOKING' && replaceState.affected.length > 1;
+  if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
+  try {
+    const plan = await api(`/api/meal-plans/${state.plan.id}/meals/${mealId}/replace`, {
+      method: 'POST',
+      body: JSON.stringify({dishId})
+    });
+    closeReplaceModal();
+    await showPlan(plan, {keepDay: true});
+    toast(shared
+      ? 'Блюдо заменено во всех приёмах этой готовки. Корзину соберите заново, если нужна.'
+      : 'Блюдо заменено. Корзину соберите заново, если нужна.');
+  } catch (e) {
+    toast(e.message || 'Не удалось заменить блюдо');
+    if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
+  }
+}
+
+$('#replaceClose').onclick = closeReplaceModal;
+$('#replaceModal').addEventListener('click', e => { if (e.target.id === 'replaceModal') closeReplaceModal(); });
+$('#replaceQ').addEventListener('input', () => renderReplaceList($('#replaceQ').value));
+
 function renderExcluded() {
+  const cats = $('#exclCats');
+  if (cats) {
+    cats.replaceChildren(...CAT_OPTS.map(code => {
+      const on = state.excludedCategories.includes(code);
+      return h('button', {
+        type: 'button',
+        class: on ? 'on' : '',
+        'aria-pressed': on,
+        onclick: () => toggleExcludedCategory(code, on)
+      }, CAT[code] || code);
+    }));
+  }
   $('#exclList').replaceChildren(...(state.excluded.length
     ? state.excluded.map(x => h('li', {class: 'xchip'}, x.name,
         h('button', {type: 'button', title: 'Убрать из исключений', 'aria-label': `Убрать ${x.name} из исключений`,
           onclick: () => removeExcluded(x)}, '×')))
-    : [h('li', {class: 'muted small'}, 'Исключений нет.')]));
+    : [h('li', {class: 'muted small'}, 'Отдельных продуктов нет.')]));
+}
+
+async function toggleExcludedCategory(category, currentlyOn) {
+  try {
+    if (currentlyOn) {
+      await api(`/api/profiles/${state.profile.id}/excluded-categories/${category}`, {method: 'DELETE'});
+      state.excludedCategories = state.excludedCategories.filter(c => c !== category);
+      toast(`«${CAT[category] || category}» снова можно использовать.`);
+    } else {
+      const list = await api(`/api/profiles/${state.profile.id}/excluded-categories`,
+        {method: 'POST', body: JSON.stringify({category})});
+      state.excludedCategories = list.map(c => c.category);
+      toast(`Категория «${CAT[category] || category}» исключена из рациона.`);
+    }
+    renderExcluded();
+  } catch (e) {
+    toast(e.status === 409 ? 'Эта категория уже исключена.' : e.message);
+  }
 }
 
 async function addExcluded() {
@@ -458,7 +1096,8 @@ function renderProfile(p) {
   $('#profile').replaceChildren(...[
     ['Возраст', `${p.age} лет`], ['Пол', {MALE: 'Мужской', FEMALE: 'Женский'}[p.gender] || 'не указан'],
     ['Рост', `${fmt.format(p.height)} см`], ['Вес', `${fmt1.format(p.weight)} кг`],
-    ['Активность', ACT[p.activityLevel] || '—'], ['Цель', GOAL[p.goal] || '—']
+    ['Активность', ACT[p.activityLevel] || '—'], ['Цель', GOAL[p.goal] || '—'],
+    ...(p.dailyCalories ? [['Норма в день', `${fmt.format(p.dailyCalories)} ккал`]] : [])
   ].map(([k, v]) => h('div', {class: 'tile'}, h('span', {}, k), h('strong', {}, v))));
 }
 
@@ -526,99 +1165,283 @@ $('#editBtn').onclick = openEdit;
 
 /* вход и выход */
 function enter(p) {
-  state.profile = p; store.set('pc.id', p.id);
+  state.profile = p;
   renderProfile(p);
   $('#auth').hidden = true; $('#app').hidden = false;
-  state.plan = null; renderResult(); loadPlans(); loadFamily(); loadExcluded(); showView('plan');
+  state.plan = null; syncCurrentNav(); renderResult(); loadPlans(); loadFamily(); loadExcluded(); loadFavorites(); showView('today');
 }
-$('#logout').onclick = () => { store.del('pc.id'); state.profile = null; $('#app').hidden = true; $('#auth').hidden = false; tab(false); };
+$('#logout').onclick = async () => {
+  try { await api('/api/auth/logout', {method: 'POST'}); } catch {}
+  forceLogout();
+};
 
 $('#reg').addEventListener('submit', e => {
   e.preventDefault();
   const f = e.target, fd = new FormData(f);
+  const password = String(fd.get('password') || '');
+  const password2 = String(fd.get('password2') || '');
   const body = {firstName: String(fd.get('firstName')).trim(), lastName: String(fd.get('lastName')).trim(),
-    email: String(fd.get('email')).trim(), height: +fd.get('height'), weight: +fd.get('weight'), birthday: fd.get('birthday'),
+    email: String(fd.get('email')).trim(), password, height: +fd.get('height'), weight: +fd.get('weight'), birthday: fd.get('birthday'),
     gender: fd.get('gender'), activityLevel: fd.get('activityLevel'), goal: fd.get('goal')};
   run(f, async () => {
     if (!body.firstName || !body.lastName) throw new Error('Укажите имя и фамилию.');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) throw new Error('Укажите корректный email.');
+    if (password.length < 6) throw new Error('Пароль должен быть не короче 6 символов.');
+    if (password !== password2) throw new Error('Пароли не совпадают.');
     if (!(body.height > 0 && body.weight > 0 && body.birthday)) throw new Error('Заполните рост, вес и дату рождения.');
     if (new Date(body.birthday) >= new Date()) throw new Error('Дата рождения должна быть в прошлом.');
-    const p = await api('/api/profiles', {method: 'POST', body: JSON.stringify(body)});
+    const p = await api('/api/auth/register', {method: 'POST', body: JSON.stringify(body)});
     enter(p);
-    toast(`Добро пожаловать, ${p.firstName}! Профиль создан.`);
+    toast(`Добро пожаловать, ${p.firstName}! Аккаунт создан.`);
   });
 });
 
 $('#login').addEventListener('submit', e => {
   e.preventDefault();
-  const f = e.target, email = String(new FormData(f).get('email')).trim();
+  const f = e.target, fd = new FormData(f);
+  const email = String(fd.get('email')).trim();
+  const password = String(fd.get('password') || '');
   run(f, async () => {
     if (!email) throw new Error('Введите email.');
-    try { enter(await api('/api/profiles/by-email?email=' + encodeURIComponent(email))); }
-    catch (err) { throw err.status === 404 ? new Error('Профиль с таким email не найден. Сначала зарегистрируйтесь.') : err; }
+    if (password.length < 6) throw new Error('Введите пароль.');
+    enter(await api('/api/auth/login', {method: 'POST', body: JSON.stringify({email, password})}));
   });
 });
 
 /* генерация */
-const setDays = n => { state.days = Math.min(14, Math.max(1, n)); $('#days').textContent = state.days; };
-$('#dec').onclick = () => setDays(state.days - 1);
-$('#inc').onclick = () => setDays(state.days + 1);
+const DAY_OPTIONS = [1, 2, 3, 5, 7, 10, 14];
+const MEALS_HINT = {3: 'Завтрак, обед и ужин', 4: 'Завтрак, обед, ужин и перекус', 5: 'Завтрак, два перекуса, обед и ужин'};
+function setDays(n) {
+  state.days = Math.min(14, Math.max(1, n));
+  $('#days').textContent = state.days;
+  document.querySelectorAll('#dayPick button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.days === state.days));
+}
+function buildDayPick() {
+  const box = $('#dayPick');
+  box.replaceChildren(...DAY_OPTIONS.map(n =>
+    h('button', {type: 'button', 'data-days': n, 'aria-pressed': n === state.days, 'aria-label': `${n} ${plural(n, 'день', 'дня', 'дней')}`,
+      onclick: () => setDays(n)}, String(n))));
+}
+buildDayPick();
+setDays(state.days);
+function syncMealsHint() {
+  const meals = +new FormData($('#gen')).get('meals');
+  $('#mealsHint').textContent = MEALS_HINT[meals] || '';
+}
 
 $('#gen').addEventListener('submit', e => {
   e.preventDefault();
   const f = e.target;
   run(f, async () => {
-    const q = new URLSearchParams({profileId: state.profile.id, days: state.days, mealsPerDay: new FormData(f).get('meals'), cookingsPerDay: $('#cooks').value, forFamily: new FormData(f).get('who') === 'family'});
-    await showPlan(await api('/api/meal-plans/generate?' + q, {method: 'POST'}));
+    const fd = new FormData(f);
+    const q = new URLSearchParams({
+      days: state.days,
+      mealsPerDay: fd.get('meals'),
+      cookingsPerDay: $('#cooks').value,
+      forFamily: fd.get('who') === 'family'
+    });
+    const planName = String(fd.get('planName') || '').trim();
+    if (planName) q.set('name', planName);
+    await showPlan(await api('/api/meal-plans/generate?' + q, {method: 'POST'}), {view: 'today'});
   });
 });
 
 /* мои планы */
-async function showPlan(plan) {
+async function showPlan(plan, {keepDay = false, view = 'current'} = {}) {
   const ids = [...new Set(plan.meals.map(m => m.dishId))];
   const dishes = await Promise.all(ids.map(id => api('/api/dishes/' + id).catch(() => null)));
   state.dishes = new Map(dishes.filter(Boolean).map(d => [d.id, d]));
-  state.plan = plan; state.basket = null; state.day = 1; renderResult(); loadPlans(); loadBasket(); showView('plan');
+  const same = keepDay && state.plan && state.plan.id === plan.id;
+  state.plan = plan;
+  state.basket = null;
+  state.day = same ? Math.min(state.day, plan.days) : 1;
+  syncCurrentNav();
+  renderResult();
+  loadPlans();
+  loadBasket();
+  showView(view);
+}
+
+function svgIcon(paths) {
+  const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  s.setAttribute('viewBox', '0 0 24 24');
+  s.setAttribute('aria-hidden', 'true');
+  for (const d of paths) {
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', d);
+    s.appendChild(p);
+  }
+  return s;
 }
 
 async function loadPlans() {
   const ul = $('#plans');
+  const clearBtn = $('#plansClear');
   try {
-    const list = await api('/api/meal-plans?profileId=' + state.profile.id);
-    ul.replaceChildren(...(list.length ? list.map(planItem) : [h('li', {class: 'muted small'}, 'Сохранённых планов пока нет.')]));
-  } catch (e) { ul.replaceChildren(h('li', {class: 'err'}, e.message)); }
+    const list = await api('/api/meal-plans');
+    clearBtn.hidden = !list.length;
+    ul.replaceChildren(...(list.length
+      ? list.map(planItem)
+      : [h('li', {class: 'empty-row'}, 'Сохранённых планов пока нет.')]));
+  } catch (e) {
+    clearBtn.hidden = true;
+    ul.replaceChildren(h('li', {class: 'empty-row err'}, e.message));
+  }
 }
 
 function planItem(p) {
   const per = Math.round(p.mealsCount / p.days);
-  return h('li', {},
-    h('button', {type: 'button', class: 'open', 'aria-current': !!(state.plan && state.plan.id === p.id), onclick: () => openPlan(p.id)},
-      `План № ${p.id}`, h('small', {}, `${p.days} ${plural(p.days, 'день', 'дня', 'дней')}, ${per} ${plural(per, 'приём', 'приёма', 'приёмов')} в день`)),
-    h('button', {type: 'button', class: 'del', title: 'Удалить', 'aria-label': `Удалить план № ${p.id}`, onclick: () => removePlan(p.id)}, '×'));
+  const start = p.startDate ? new Date(p.startDate + 'T00:00:00').toLocaleDateString('ru-RU') : null;
+  const usedToday = state.todayPlanId != null && Number(state.todayPlanId) === Number(p.id);
+  const title = planDisplayName(p);
+  const meta = `${p.days} ${plural(p.days, 'день', 'дня', 'дней')} · ${per} ${plural(per, 'приём', 'приёма', 'приёмов')} в день` +
+    (start ? ` · с ${start}` : '');
+
+  const main = h('button', {type: 'button', class: 'plan-main', onclick: () => openPlan(p.id)},
+    h('div', {class: 'plan-title'},
+      h('span', {}, title),
+      usedToday ? h('span', {class: 'badge'}, 'сегодня') : (p.active ? h('span', {class: 'badge'}, 'текущий') : null)),
+    h('div', {class: 'plan-meta'}, meta));
+
+  const act = h('button', {
+    type: 'button',
+    class: 'icon-btn' + (usedToday ? ' on' : ''),
+    title: usedToday ? 'Уже на сегодня' : 'Сделать текущим на сегодня',
+    'aria-label': usedToday ? `«${title}» уже на сегодня` : `Сделать «${title}» текущим`,
+    'aria-pressed': usedToday
+  }, svgIcon(['M12 3l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 15.9 7.2 18l.9-5.4L4.2 8.7l5.4-.8z']));
+  act.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (usedToday) { toast('Этот план уже на сегодня.'); return; }
+    act.style.cursor = 'progress';
+    activatePlan(p.id)
+      .catch(err => toast(err.message))
+      .finally(() => { act.style.cursor = ''; });
+  });
+
+  const rename = h('button', {
+    type: 'button', class: 'icon-btn', title: 'Переименовать',
+    'aria-label': `Переименовать «${title}»`
+  }, svgIcon(['M12 20h9', 'M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z']));
+  rename.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); renamePlan(p); });
+
+  const del = h('button', {
+    type: 'button', class: 'icon-btn danger', title: 'Удалить',
+    'aria-label': `Удалить «${title}»`
+  }, svgIcon(['M3 6h18', 'M8 6V4h8v2', 'M19 6l-1 14H6L5 6', 'M10 11v6', 'M14 11v6']));
+  del.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    removePlan(p.id, {active: !!p.active, usedToday, name: title});
+  });
+
+  return h('li', {class: 'plan-row' + (usedToday ? ' is-today' : '')},
+    main, h('div', {class: 'plan-acts'}, act, rename, del));
+}
+
+async function renamePlan(p) {
+  const current = planDisplayName(p);
+  const next = prompt('Название плана', current);
+  if (next == null) return;
+  const name = next.trim();
+  if (!name) { toast('Название не может быть пустым.'); return; }
+  try {
+    const plan = await api('/api/meal-plans/' + p.id, {
+      method: 'PATCH',
+      body: JSON.stringify({name})
+    });
+    if (state.plan && state.plan.id === plan.id) state.plan = plan;
+    toast('Название сохранено.');
+    loadPlans();
+    const onToday = document.querySelector('.nav button[data-view=today][aria-current=true]');
+    if (onToday) loadToday();
+    if (state.plan && state.plan.id === plan.id) renderResult();
+  } catch (e) { toast(e.message); }
+}
+
+async function activatePlan(id, {silent = false} = {}) {
+  const plan = await api('/api/meal-plans/' + id + '/activate', {method: 'POST'});
+  await showPlan(plan, {view: 'today'});
+  if (!silent) toast('План выбран для «Сегодня».');
+  return plan;
 }
 
 async function openPlan(id) {
   try { await showPlan(await api('/api/meal-plans/' + id)); } catch (e) { toast(e.message); }
 }
 
-async function removePlan(id) {
-  if (!confirm(`Удалить план № ${id}? Это нельзя отменить.`)) return;
+async function removePlan(id, meta = {}) {
+  const usedToday = meta.usedToday || (state.todayPlanId != null && Number(state.todayPlanId) === Number(id));
+  const active = !!meta.active;
+  const label = meta.name || (state.plan && state.plan.id === id ? planDisplayName(state.plan) : 'план');
+  const msg = (usedToday || active)
+    ? `«${label}» сейчас используется на экране «Сегодня».\n\n` +
+      `Если удалить его, исчезнут меню на сегодня и все отметки «съел / пропуск» по этому плану.\n\n` +
+      `Удалить безвозвратно?`
+    : `Удалить «${label}»? Это нельзя отменить.`;
+  if (!confirm(msg)) return;
   try { await api('/api/meal-plans/' + id, {method: 'DELETE'}); }
   catch (e) { if (e.status !== 404) { toast(e.message); return; } }
-  if (state.plan && state.plan.id === id) { state.plan = null; renderResult(); }
-  toast(`План № ${id} удалён.`);
+  if (state.plan && state.plan.id === id) {
+    state.plan = null;
+    state.basket = null;
+    syncCurrentNav();
+    renderResult();
+    const onCurrent = document.querySelector('.nav button[data-view=current][aria-current=true]');
+    if (onCurrent) showView('plans');
+  }
+  if (usedToday) state.todayPlanId = null;
+  toast(`«${label}» удалён.`);
   loadPlans();
+  const onToday = document.querySelector('.nav button[data-view=today][aria-current=true]');
+  if (onToday) loadToday();
 }
+
+async function removeAllPlans() {
+  if (!confirm(
+    'Удалить все сохранённые планы?\n\n' +
+    'Вместе с ними пропадёт меню на «Сегодня» и все отметки «съел / пропуск».\n\n' +
+    'Это нельзя отменить.'
+  )) return;
+  const btn = $('#plansClear');
+  btn.disabled = true;
+  try {
+    await api('/api/meal-plans', {method: 'DELETE'});
+    state.plan = null;
+    state.todayPlanId = null;
+    state.basket = null;
+    syncCurrentNav();
+    renderResult();
+    toast('Все планы удалены.');
+    await loadPlans();
+    showView('plans');
+  } catch (e) {
+    toast(e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+$('#plansClear').onclick = removeAllPlans;
 
 /* результат */
 const kcal = m => { const d = state.dishes.get(m.dishId); return d ? d.calories * m.portion : null; };
 
+function dayKcal(plan, day) {
+  return plan.meals.filter(m => m.dayNumber === day).reduce((s, m) => s + (kcal(m) || 0), 0);
+}
+
 function renderResult() {
   const box = $('#result'), plan = state.plan;
+  if (!box) return;
   if (!plan) {
-    box.replaceChildren(h('div', {class: 'empty'}, h('h2', {}, 'Плана пока нет'),
-      h('p', {}, 'Выберите число дней и приёмов пищи слева и нажмите «Составить план».')));
+    box.replaceChildren(h('div', {class: 'empty'},
+      h('h2', {}, 'План не открыт'),
+      h('p', {}, 'Сгенерируйте меню, соберите вручную или откройте сохранённый план — он появится здесь.'),
+      h('div', {class: 'actions', style: 'justify-content:center;margin-top:1.1rem'},
+        h('button', {type: 'button', class: 'btn lime', onclick: () => showView('plan')}, 'К генерации'),
+        h('button', {type: 'button', class: 'btn ghost', onclick: () => showView('manual')}, 'Вручную'),
+        h('button', {type: 'button', class: 'btn ghost', onclick: () => showView('plans')}, 'Мои планы'))));
     return;
   }
   const meals = plan.meals.filter(m => m.dayNumber === state.day)
@@ -626,28 +1449,77 @@ function renderResult() {
   const total = meals.reduce((s, m) => s + (kcal(m) || 0), 0);
   const perDay = plan.meals.length / plan.days;
   const cooks = new Set(meals.map(m => m.dishId)).size;
+  const target = state.profile && state.profile.dailyCalories
+    ? state.profile.dailyCalories * (plan.familyId && state.family ? state.family.members.length : 1)
+    : 0;
 
   const rows = meals.map(m => {
     const d = state.dishes.get(m.dishId), k = kcal(m);
     const shared = meals.filter(x => x !== m && x.dishId === m.dishId).map(x => MEAL[x.mealType] || x.mealType);
-    return h('details', {class: 'meal'},
-      h('summary', {}, h('span', {class: 'kind', 'data-t': m.mealType}, MEAL[m.mealType] || m.mealType), h('span', {class: 'dish'}, m.dishName, shared.length ? h('small', {class: 'with'}, `готовится один раз вместе: ${shared.join(', ')}`) : null),
-        h('span', {class: 'kcal'}, k == null ? '—' : `${fmt.format(k)} ккал`, h('small', {}, `${state.plan.familyId ? 'всего' : 'порция'} ×${fmt1.format(m.portion)}`))),
-      (m.members || []).length > 1 ? h('p', {class: 'who'}, 'Порции: ' + m.members.map(x =>
-        `${x.name} ×${fmt1.format(x.portion)}${d ? ` (${fmt.format(d.calories * x.portion)} ккал)` : ''}`).join('; ')) : null,
-      d ? h('ul', {class: 'ing'}, d.ingredients.map(i =>
-        h('li', {}, h('span', {}, i.productName), h('span', {}, `${fmt.format(i.amount * m.portion)} г`)))) : null);
+    const liked = isFav(m.dishId);
+    const detailsKids = [];
+    if ((m.members || []).length > 1) {
+      detailsKids.push(h('p', {class: 'who'}, 'Порции: ' + m.members.map(x =>
+        `${x.name} ×${fmt1.format(x.portion)}${d ? ` (${fmt.format(d.calories * x.portion)} ккал)` : ''}`).join('; ')));
+    }
+    if (d) {
+      detailsKids.push(h('ul', {class: 'ing'}, d.ingredients.map(i =>
+        h('li', {}, h('span', {}, i.productName), h('span', {}, `${fmt.format(i.amount * m.portion)} г`)))));
+    }
+    const replaceBtn = h('button', {type: 'button', class: 'btn ghost sm'}, 'Заменить');
+    replaceBtn.onclick = () => openReplaceModal(m.id, replaceBtn);
+    return h('article', {class: 'meal-card', 'data-t': m.mealType},
+      h('div', {class: 'meal-top'},
+        h('span', {class: 'kind', 'data-t': m.mealType}, MEAL[m.mealType] || m.mealType),
+        h('span', {class: 'dish'}, m.dishName, shared.length ? h('small', {class: 'with'}, `одна готовка с: ${shared.join(', ')}`) : null),
+        h('span', {class: 'kcal'}, k == null ? '—' : `${fmt.format(k)} ккал`,
+          h('small', {}, `${state.plan.familyId ? 'всего' : 'порция'} ×${fmt1.format(m.portion)}`))),
+      h('div', {class: 'meal-actions'},
+        h('button', {type: 'button', class: 'icon-btn' + (liked ? ' on' : ''),
+          'aria-pressed': liked, 'aria-label': liked ? 'Убрать из избранного' : 'В избранное',
+          onclick: () => toggleFavorite(m.dishId)}, '♥'),
+        replaceBtn),
+      detailsKids.length ? h('details', {class: 'meal-body'},
+        h('summary', {}, 'Состав и детали'), ...detailsKids) : null);
   });
 
+  const rail = h('div', {class: 'day-rail', role: 'tablist', 'aria-label': 'Дни плана'},
+    ...Array.from({length: plan.days}, (_, i) => i + 1).map(n => {
+      const k = dayKcal(plan, n);
+      const pct = target && k ? Math.min(100, Math.round(k / target * 100)) : 0;
+      return h('button', {type: 'button', role: 'tab', 'aria-selected': n === state.day, 'aria-pressed': n === state.day,
+        onclick: () => { state.day = n; renderResult(); }},
+        h('span', {class: 'dn'}, 'День'),
+        h('span', {class: 'dd'}, String(n)),
+        h('span', {class: 'dk'}, k ? `${fmt.format(k)} ккал` : '—'),
+        target ? h('span', {class: 'bar', 'aria-hidden': 'true'}, h('i', {style: `width:${pct}%`})) : null);
+    }));
+
   box.replaceChildren(
-    h('div', {class: 'head'},
-      h('div', {}, h('h2', {}, `План на ${plan.days} ${plural(plan.days, 'день', 'дня', 'дней')}`),
-        h('p', {class: 'muted small'}, `План № ${plan.id}, ${perDay} ${plural(perDay, 'приём', 'приёма', 'приёмов')} пищи в день${plan.familyId ? ', на семью' : ''}`))),
-    h('div', {class: 'days'}, Array.from({length: plan.days}, (_, i) => i + 1).map(n =>
-      h('button', {type: 'button', 'aria-pressed': n === state.day, onclick: () => { state.day = n; renderResult(); }}, `День ${n}`))),
-    h('section', {class: 'card'}, rows,
-      h('div', {class: 'total'}, h('span', {}, `Итого за день${state.plan.familyId ? ' на всех' : ''}, готовок: ${cooks}`), h('span', {}, total ? `${fmt.format(total)} ккал` : '—'))),
-    basketCard()
+    h('div', {class: 'plan-shell'},
+      h('div', {class: 'plan-meta'},
+        h('div', {},
+          h('h2', {}, planDisplayName(plan)),
+          h('div', {class: 'meta-line'},
+            h('span', {class: 'chip'}, `${plan.days} ${plural(plan.days, 'день', 'дня', 'дней')}`),
+            h('span', {class: 'chip'}, `${perDay} ${plural(perDay, 'приём', 'приёма', 'приёмов')} / день`),
+            plan.familyId ? h('span', {class: 'chip'}, 'На семью') : h('span', {class: 'chip'}, 'Для себя')),
+          h('button', {type: 'button', class: 'btn ghost sm', style: 'margin-top:.55rem',
+            onclick: () => renamePlan(plan)}, 'Переименовать')),
+        h('button', {type: 'button', class: 'btn ghost', onclick: () => showView('plans')}, 'К списку планов')),
+      rail,
+      h('div', {class: 'day-panel'},
+        h('div', {class: 'day-panel-head'},
+          h('h3', {}, `День ${state.day}`),
+          h('div', {class: 'day-stats'},
+            h('span', {class: 'chip'}, `${meals.length} ${plural(meals.length, 'блюдо', 'блюда', 'блюд')}`),
+            h('span', {class: 'chip'}, `${cooks} ${plural(cooks, 'готовка', 'готовки', 'готовок')}`))),
+        h('div', {class: 'meals-board'}, ...rows),
+        h('div', {class: 'total'},
+          h('span', {}, `Итого за день${plan.familyId ? ' на всех' : ''}`,
+            target ? h('small', {}, `ориентир ≈ ${fmt.format(target)} ккал`) : null),
+          h('span', {}, total ? `${fmt.format(total)} ккал` : '—'))),
+      basketCard())
   );
 }
 
@@ -760,7 +1632,7 @@ async function createFamily(name) {
   name = name.trim();
   if (!name) { toast('Введите название семьи.'); return; }
   try {
-    state.family = await api('/api/families', {method: 'POST', body: JSON.stringify({name, profileId: state.profile.id})});
+    state.family = await api('/api/families', {method: 'POST', body: JSON.stringify({name})});
     state.profile.familyId = state.family.id; renderFamily(); toast('Семья создана.');
   } catch (e) { toast(e.message); }
 }
@@ -785,34 +1657,248 @@ async function leaveFamily(profileId) {
   } catch (e) { toast(e.message); }
 }
 
+/* ручное составление */
+const MEAL_TYPES_BY_COUNT = {
+  3: ['BREAKFAST', 'LUNCH', 'DINNER'],
+  4: ['BREAKFAST', 'SNACK', 'LUNCH', 'DINNER'],
+  5: ['BREAKFAST', 'SNACK', 'LUNCH', 'DINNER', 'SECOND_SNACK']
+};
+const manual = {days: 3, mealsPerDay: 4, day: 1, slots: {}};
+const slotKey = (day, type) => day + ':' + type;
+
+function manualTypes() {
+  return MEAL_TYPES_BY_COUNT[manual.mealsPerDay] || MEAL_TYPES_BY_COUNT[4];
+}
+
+function pruneManualSlots() {
+  const keep = new Set();
+  for (let d = 1; d <= manual.days; d++) {
+    for (const t of manualTypes()) keep.add(slotKey(d, t));
+  }
+  for (const k of Object.keys(manual.slots)) {
+    if (!keep.has(k)) delete manual.slots[k];
+  }
+  if (manual.day > manual.days) manual.day = manual.days;
+}
+
+function buildManualDayPick() {
+  const box = $('#manualDayPick');
+  box.replaceChildren(...DAY_OPTIONS.map(n =>
+    h('button', {type: 'button', 'data-days': n, 'aria-pressed': n === manual.days,
+      'aria-label': `${n} ${plural(n, 'день', 'дня', 'дней')}`,
+      onclick: () => { manual.days = n; pruneManualSlots(); renderManual(); }}, String(n))));
+}
+
+function filledManualCount() {
+  let n = 0;
+  for (let d = 1; d <= manual.days; d++) {
+    for (const t of manualTypes()) if (manual.slots[slotKey(d, t)]) n++;
+  }
+  return n;
+}
+
+function totalManualSlots() {
+  return manual.days * manualTypes().length;
+}
+
+function renderManual() {
+  buildManualDayPick();
+  document.querySelectorAll('#manualDayPick button').forEach(b =>
+    b.setAttribute('aria-pressed', +b.dataset.days === manual.days));
+  document.querySelectorAll('input[name=manualMeals]').forEach(r => {
+    r.checked = +r.value === manual.mealsPerDay;
+  });
+  $('#manualMealsHint').textContent = MEALS_HINT[manual.mealsPerDay] || '';
+  $('#manualDayTitle').textContent = `День ${manual.day}`;
+
+  const filled = filledManualCount(), total = totalManualSlots();
+  $('#manualFilled').textContent = `${filled} / ${total} заполнено`;
+  $('#manualStat').textContent = filled === total
+    ? 'Все приёмы заполнены — можно сохранить'
+    : `Осталось заполнить: ${total - filled}`;
+  $('#manualSave').disabled = filled !== total;
+  $('#manualErr').textContent = '';
+
+  $('#manualDayRail').replaceChildren(...Array.from({length: manual.days}, (_, i) => i + 1).map(n => {
+    const dayFilled = manualTypes().every(t => manual.slots[slotKey(n, t)]);
+    return h('button', {type: 'button', role: 'tab', 'aria-pressed': n === manual.day, 'aria-selected': n === manual.day,
+      onclick: () => { manual.day = n; renderManual(); }},
+      h('span', {class: 'dn'}, 'День'),
+      h('span', {class: 'dd'}, String(n)),
+      h('span', {class: 'dk'}, dayFilled ? 'готово' : 'не полностью'));
+  }));
+
+  const types = manualTypes();
+  $('#manualSlots').replaceChildren(...types.map(type => {
+    const key = slotKey(manual.day, type);
+    const dish = manual.slots[key];
+    const pick = h('button', {type: 'button', class: 'btn ghost sm'}, dish ? 'Сменить' : 'Выбрать');
+    pick.onclick = () => openDishPicker(type, chosen => {
+      manual.slots[key] = chosen;
+      renderManual();
+    });
+    const clear = dish ? h('button', {type: 'button', class: 'btn ghost sm', onclick: () => {
+      delete manual.slots[key]; renderManual();
+    }}, 'Убрать') : null;
+    return h('div', {class: 'slot' + (dish ? '' : ' empty')},
+      h('span', {class: 'kind', 'data-t': type}, MEAL[type] || type),
+      h('span', {class: 'slot-dish'},
+        dish ? dish.name : 'Блюдо не выбрано',
+        dish ? h('small', {}, `${fmt.format(dish.calories)} ккал` + (dish.cookingTime ? ` · ${dish.cookingTime} мин` : '')) : null),
+      h('div', {class: 'slot-actions'}, pick, clear));
+  }));
+}
+
+let dishPickCtx = {mealType: null, onPick: null, items: []};
+
+function closeDishPicker() {
+  $('#dishPickModal').hidden = true;
+  dishPickCtx = {mealType: null, onPick: null, items: []};
+  $('#dishPickQ').value = '';
+  $('#dishPickList').replaceChildren();
+}
+
+function renderDishPickList(filter = '') {
+  const q = filter.trim().toLowerCase();
+  let list = dishPickCtx.items.filter(d => !q || d.name.toLowerCase().includes(q));
+  list = [...list].sort((a, b) => {
+    const af = isFav(a.id) ? 0 : 1, bf = isFav(b.id) ? 0 : 1;
+    return af - bf || a.name.localeCompare(b.name, 'ru');
+  });
+  const ul = $('#dishPickList');
+  if (!list.length) {
+    ul.replaceChildren(h('li', {class: 'muted small', style: 'padding:1rem'},
+      q ? 'Ничего не найдено.' : 'Нет блюд для этого приёма. Проверьте каталог или исключения.'));
+    return;
+  }
+  ul.replaceChildren(...list.slice(0, 80).map(d => {
+    const liked = isFav(d.id);
+    const btn = h('button', {type: 'button', class: 'alt' + (liked ? ' fav' : '')},
+      h('span', {class: 'nm'}, liked ? h('span', {class: 'heart'}, '♥ ') : null, d.name),
+      h('span', {class: 'meta'}, d.cookingTime ? `${d.cookingTime} мин` : 'без времени'),
+      h('span', {class: 'cal'}, `${fmt.format(d.calories)} ккал`, h('small', {}, 'на 1 порцию')));
+    btn.onclick = () => {
+      if (dishPickCtx.onPick) {
+        dishPickCtx.onPick({
+          dishId: d.id, name: d.name, calories: d.calories, cookingTime: d.cookingTime
+        });
+      }
+      closeDishPicker();
+    };
+    return h('li', {}, btn);
+  }));
+}
+
+async function openDishPicker(mealType, onPick) {
+  dishPickCtx = {mealType, onPick, items: []};
+  $('#dishPickSub').textContent = MEAL[mealType] || mealType;
+  $('#dishPickNote').replaceChildren(
+    h('p', {}, 'Показаны блюда, подходящие для этого приёма. Избранные — выше.'));
+  $('#dishPickQ').value = '';
+  $('#dishPickList').replaceChildren(h('li', {class: 'muted small', style: 'padding:1rem'}, 'Загрузка…'));
+  $('#dishPickModal').hidden = false;
+  $('#dishPickQ').focus();
+  try {
+    const list = await api('/api/dishes?q=');
+    dishPickCtx.items = (list || []).filter(d => (d.mealTypes || []).includes(mealType));
+    renderDishPickList();
+  } catch (e) {
+    toast(e.message);
+    closeDishPicker();
+  }
+}
+
+$('#dishPickClose').onclick = closeDishPicker;
+$('#dishPickModal').addEventListener('click', e => { if (e.target.id === 'dishPickModal') closeDishPicker(); });
+$('#dishPickQ').addEventListener('input', debounce(() => renderDishPickList($('#dishPickQ').value), 180));
+
+document.querySelectorAll('input[name=manualMeals]').forEach(r => r.addEventListener('change', () => {
+  manual.mealsPerDay = +r.value;
+  pruneManualSlots();
+  renderManual();
+}));
+$('#manualReset').onclick = () => {
+  if (!Object.keys(manual.slots).length) return;
+  if (!confirm('Очистить выбранные блюда?')) return;
+  manual.slots = {};
+  renderManual();
+};
+$('#manualSave').onclick = async () => {
+  const err = $('#manualErr'), btn = $('#manualSave');
+  err.textContent = '';
+  const types = manualTypes();
+  const meals = [];
+  for (let d = 1; d <= manual.days; d++) {
+    for (const t of types) {
+      const slot = manual.slots[slotKey(d, t)];
+      if (!slot) {
+        err.textContent = `Не выбран ${MEAL[t] || t} в день ${d}.`;
+        manual.day = d; renderManual();
+        return;
+      }
+      meals.push({dayNumber: d, mealType: t, dishId: slot.dishId});
+    }
+  }
+  const forFamily = document.querySelector('input[name=manualWho]:checked')?.value === 'family';
+  btn.disabled = true;
+  try {
+    const name = String($('#manualPlanName')?.value || '').trim();
+    const plan = await api('/api/meal-plans/manual', {
+      method: 'POST',
+      body: JSON.stringify({name: name || null, days: manual.days, forFamily, meals})
+    });
+    await showPlan(plan, {view: 'today'});
+    toast('План сохранён.');
+  } catch (e) {
+    err.textContent = e.message;
+    toast(e.message);
+  } finally {
+    btn.disabled = filledManualCount() !== totalManualSlots();
+  }
+};
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (!$('#dishPickModal').hidden) closeDishPicker();
+  else if (!$('#replaceModal').hidden) closeReplaceModal();
+});
+
 /* число готовок */
 let cooksSeparate = true;
-function syncCooks() {
-  const meals = +new FormData($('#gen')).get('meals'), sel = $('#cooks'), prev = +sel.value;
-  sel.replaceChildren(...Array.from({length: meals}, (_, i) => i + 1).map(k =>
-    h('option', {value: k}, k === meals ? `${k}, каждый приём отдельно` : `${k} ${plural(k, 'готовка', 'готовки', 'готовок')}`)));
-  sel.value = cooksSeparate || !prev || prev > meals ? meals : prev;
-  cookHint();
-}
 function cookHint() {
   const meals = +new FormData($('#gen')).get('meals');
   $('#cookHint').textContent = +$('#cooks').value < meals
-    ? 'Одно блюдо готовится сразу на несколько соседних приёмов пищи.'
-    : 'Каждый приём пищи готовится отдельно.';
+    ? 'Одно блюдо на несколько соседних приёмов.'
+    : 'Каждый приём готовится отдельно.';
 }
-$('#cooks').addEventListener('change', () => {
-  cooksSeparate = +$('#cooks').value === +new FormData($('#gen')).get('meals');
+function paintCookSeg() {
+  const meals = +new FormData($('#gen')).get('meals');
+  const cur = +$('#cooks').value || meals;
+  $('#cookSeg').replaceChildren(...Array.from({length: meals}, (_, i) => i + 1).map(k =>
+    h('button', {type: 'button', 'aria-pressed': k === cur,
+      onclick: () => {
+        $('#cooks').value = k;
+        cooksSeparate = k === meals;
+        paintCookSeg();
+        cookHint();
+      }}, k === meals ? `${k} · отдельно` : String(k))));
+}
+function syncCooks() {
+  const meals = +new FormData($('#gen')).get('meals'), sel = $('#cooks'), prev = +sel.value;
+  sel.replaceChildren(...Array.from({length: meals}, (_, i) => i + 1).map(k =>
+    h('option', {value: k}, String(k))));
+  sel.value = cooksSeparate || !prev || prev > meals ? meals : prev;
+  paintCookSeg();
   cookHint();
-});
+  syncMealsHint();
+}
 document.querySelectorAll('input[name=meals]').forEach(r => r.addEventListener('change', syncCooks));
 syncCooks();
 
 /* восстановление сессии */
 (async () => {
-  const id = store.get('pc.id');
-  if (!id) { tab(true); return; }
-  try { enter(await api('/api/profiles/' + encodeURIComponent(id))); }
-  catch { store.del('pc.id'); tab(true); }
+  try { enter(await api('/api/auth/me')); }
+  catch { tab(true); }
 })();
 </script>
 </body>

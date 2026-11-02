@@ -12,14 +12,20 @@ import java.util.Optional;
 
 public interface MealPlanRepository extends JpaRepository<MealPlan, Long> {
     @Query("""
-        select new ru.productmanager.dto.MealPlanSummary(p.id, p.days, count(m))
+        select new ru.productmanager.dto.MealPlanSummary(p.id, p.name, p.days, count(m), p.startDate, p.active)
         from MealPlan p left join p.meals m
         where p.owner.id = :ownerId
-        group by p.id, p.days
+        group by p.id, p.name, p.days, p.startDate, p.active
         order by p.id desc
         """)
     List<MealPlanSummary> findSummariesByOwnerId(@Param("ownerId") Long ownerId);
 
     @EntityGraph(attributePaths = {"meals", "meals.dish", "meals.memberPortions", "meals.memberPortions.member"})
     Optional<MealPlan> findById(Long id);
+
+    List<MealPlan> findByOwnerIdOrderByIdDesc(Long ownerId);
+
+    Optional<MealPlan> findFirstByOwnerIdAndActiveTrueOrderByIdDesc(Long ownerId);
+
+    long deleteByOwnerId(Long ownerId);
 }

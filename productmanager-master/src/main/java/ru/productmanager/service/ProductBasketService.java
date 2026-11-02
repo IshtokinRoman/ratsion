@@ -81,4 +81,10 @@ public class ProductBasketService {
     public void delete(Long id) {
         repository.delete(getBasket(id));
     }
+
+    /** Удаляет корзину плана, если она есть (после замены блюда список покупок устаревает). */
+    @Transactional
+    public void deleteByMealPlanId(Long mealPlanId) {
+        repository.findByMealPlanId(mealPlanId).ifPresent(repository::delete);
+    }
 }

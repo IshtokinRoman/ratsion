@@ -13,6 +13,8 @@ import java.util.Set;
 public interface MealTypeByDishRepository extends JpaRepository<MealTypeByDish, Long> {
     List<MealTypeByDish> findByMealType(MealType type);
 
+    List<MealTypeByDish> findByDishId(Long dishId);
+
 
     @Query("""
    SELECT mtd.dish
